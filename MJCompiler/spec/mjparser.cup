@@ -1,0 +1,222 @@
+
+
+package rs.ac.bg.etf.pp1;
+
+import java_cup.runtime.*;
+import org.apache.log4j.*;
+import rs.ac.bg.etf.pp1.ast.*;
+
+parser code {:
+
+	Logger log = Logger.getLogger(getClass());
+   
+   
+    // slede redefinisani metodi za prijavu gresaka radi izmene teksta poruke
+     
+    public void report_fatal_error(String message, Object info) throws java.lang.Exception {
+      done_parsing();
+      report_error(message, info);
+    }
+  
+    public void syntax_error(Symbol cur_token) {
+        report_error("\nSintaksna greska", cur_token);
+    }
+  
+    public void unrecovered_syntax_error(Symbol cur_token) throws java.lang.Exception {
+        report_fatal_error("Fatalna greska, parsiranje se ne moze nastaviti", cur_token);
+    }
+
+    public void report_error(String message, Object info) {
+    	StringBuilder msg = new StringBuilder(message); 
+    	if (info instanceof Symbol)
+            msg.append (" na liniji ").append(((Symbol)info).left);
+        log.error(msg.toString());
+    }
+
+
+:}
+
+
+scan with {:
+	Symbol s = this.getScanner().next_token();
+	if (s != null && s.value != null) 
+		log.info(s.toString() + " " + s.value.toString());
+	return s;
+:}
+
+terminal PROG, LBRACE, RBRACE, SEMI, LPAREN, RPAREN, EQUAL, RETURN, PLUS, COMMA, PRINT;
+terminal NUMBER;
+terminal IDENT;
+terminal BREAK, CLASS, ENUM, ELSE, CONST, IF, DO, WHILE, NEW, READ, VOID, EXTENDS;
+terminal CONTINUE, THIS, SUPER, GOTO, RECORD;
+terminal CHAR, BOOL;
+terminal MINUS, MUL, DIV, MOD, DOUBLEEQUAL, NOTEQUAL, BIGGER, BIGGEREQUAL, SMALLER, SMALLEREQUAL, ANDAND, OROR, INCREMENT, DECREMENT, COLON, DOT, LBRACKET, RBRACKET;
+
+nonterminal Program;
+nonterminal VarDecl, Type;
+nonterminal OptArray, VarElem, VarArray;
+nonterminal DeclList, SingleDecl, ConstDecl;
+nonterminal ConstArray, ConstElem, ConstType;
+nonterminal RecordDecl, VarDeclList;
+nonterminal MethodDeclList, MethodDecl, MethodType;
+nonterminal FormPars, FormParsElem, FormParsArray;
+nonterminal StatementList, SingleStatement;
+nonterminal SingleStatementElem, Label;
+nonterminal DesignatorStatement, Designator, DsgArray;
+nonterminal Assignop, Expr, OptActPars, ActPars;
+nonterminal OptSub, Term, Addop;
+nonterminal TermArray, ExprOpt;
+nonterminal Mulop, Factor, OptConst;
+nonterminal FactorOptActPars, OptExpr, DsgOpt, DsgElem;
+nonterminal Condition, CondTerm, CondFact, Relop;
+
+precedence left ELSE;
+
+Program 		::= (Program) PROG IDENT DeclList LBRACE MethodDeclList RBRACE ;
+
+MethodDeclList	::= (ListMethodDecl) MethodDeclList MethodDecl
+				|	(NoMethodDeclList) ;
+				
+MethodDecl		::= (MethodDecl) MethodType IDENT LPAREN FormPars RPAREN VarDeclList LBRACE StatementList RBRACE;
+
+StatementList	::= (ListOfStatements) StatementList SingleStatement
+				|	(NoStatementList) ;
+				
+SingleStatement	::=	(SingleStatementLabel) Label COLON SingleStatementElem
+				|	(SingleStatementnoLabel) SingleStatementElem;
+
+SingleStatementElem		::=	(SingleStmtElemDsgStmt) DesignatorStatement SEMI
+						|	(SingleStmtElemIfElse) IF LPAREN Condition RPAREN SingleStatement ELSE SingleStatement
+						|	(SingleStmtElemIf) IF LPAREN Condition RPAREN SingleStatement
+						|	(SingleStmtElemDo) DO SingleStatement WHILE LPAREN Condition RPAREN SEMI
+						|	(SingleStmtElemBreak) BREAK SEMI
+						|	(SingleStmtElemContinue) CONTINUE SEMI
+						|	(SingleStmtElemReturn) RETURN ExprOpt SEMI
+						|	(SingleStmtElemRead) READ LPAREN Designator RPAREN SEMI
+						|	(SingleStmtElemPrint) PRINT LPAREN Expr OptConst RPAREN SEMI
+						|	(SingleStmtElemGoto) GOTO Label SEMI
+						|	(SingleStmtElemNewStmt) LBRACE StatementList RBRACE;
+				
+Condition		::=	(MultipleCondition) Condition OROR CondTerm
+				|	(SingleCondition) CondTerm;
+				
+CondTerm		::= (MultipleCondTermFacts) CondTerm ANDAND CondFact
+				|	(SingleCondTermFact) CondFact;
+				
+CondFact		::= (DoubleCondFact) Expr Relop Expr
+				|	(SingleCondFact) Expr;
+
+DesignatorStatement		::=	(DesignatorStatement) Designator DsgArray;
+
+DsgArray		::=	(DsgArrayAE) Assignop Expr
+				|	(DsgArrayActPars) LPAREN OptActPars RPAREN
+				|	(DsgArrayInc) INCREMENT
+				|	(DsgArrayDec) DECREMENT;
+				
+ExprOpt			::=	(YesExprOpt) Expr
+				|	(NoExprOpt) ;
+				
+OptConst		::= (YesOptConst) COMMA NUMBER
+				|	(NoOptConst) ;
+				
+Expr			::= (Expr) OptSub TermArray;
+
+TermArray		::= (MultipleTerm) TermArray Addop Term
+				|	(SingleTerm) Term;
+				
+Term			::= (MultipleFactor) Term Mulop Factor
+				|	(SingleFactor) Factor;
+				
+Factor			::=	(FactorDesg) Designator FactorOptActPars
+				|	(FactorNum) NUMBER
+				|	(FactorChar) CHAR
+				|	(FactorBool) BOOL
+				|	(FactorNew) NEW Type OptExpr
+				|	(FactorExpr) LPAREN Expr RPAREN;
+				
+Designator		::= (Designator) IDENT DsgOpt;
+
+DsgOpt			::= (DesignatorOpt) DsgOpt DsgElem
+				|	(NoDsgOpt);
+				
+DsgElem			::= (DsgElemIdent) DOT IDENT
+				|	(DsgElemExpr) LBRACKET Expr RBRACKET;
+				
+OptExpr			::=	(OptionalExpr) LBRACKET Expr RBRACKET
+				|	(NoOptExpr);
+
+FactorOptActPars	::=	(OptActParsFactor) LPAREN OptActPars RPAREN
+					|	(NoFactorOptActPars) ;
+				
+Mulop			::= (MulopMul) MUL
+				|	(MulopDiv) DIV
+				|	(MulopMod) MOD;
+				
+Addop			::=	(AddopPlus) PLUS
+				|	(AddopMinus) MINUS;
+
+OptSub			::= (YesOptSub) MINUS
+				|	(NoOptSub) ;
+				
+Assignop		::=	(Assignop) EQUAL; 
+				
+OptActPars		::= (ActParsArray) ActPars
+				|	(NoActPars) ;
+				
+ActPars			::= (MoreActPars) ActPars COMMA Expr
+				|	(SingleActPars) Expr;
+
+FormPars		::= (ListFormPars) FormParsElem FormParsArray
+				|	(NoFormPars) ;
+				
+FormParsArray	::= (ArrayOfFormPars) FormParsArray COMMA FormParsElem
+				|	(NoFormParsArray) ;
+				
+FormParsElem	::= (FormParsElem) Type IDENT OptArray;
+
+MethodType		::= (NonVoidTypeMethod) Type
+				|	(VoidTypeMethod) VOID;
+
+DeclList		::= (DeclListRec) DeclList SingleDecl
+				|	(NoDeclList) ;
+				
+SingleDecl		::= (SingleVar) VarDecl
+				|	(SingleConst) ConstDecl
+				|	(SingleRecord) RecordDecl;
+				
+RecordDecl		::= (RecordDecl) RECORD IDENT LBRACE VarDeclList RBRACE;
+
+VarDeclList		::= (ListVarDecl) VarDeclList VarDecl
+				|	(NoVarDeclList) ;
+				
+ConstDecl		::= (ConstDecl) CONST Type ConstElem ConstArray SEMI;
+
+ConstArray		::= (ArrayOfConst) ConstArray COMMA ConstElem
+				|	(NoConstArray) ;
+				
+ConstElem		::= (ConstElem) IDENT EQUAL ConstType;
+
+ConstType		::= (NumConstType) NUMBER	
+				|	(CharConstType) CHAR
+				|	(BoolConstType) BOOL;
+
+VarDecl			::= (VarDecl) Type VarElem VarArray SEMI;
+
+VarArray		::= (VarArrayRec) VarArray COMMA VarElem
+				|	(NoVarArray) ;
+
+VarElem			::= (VarElem) IDENT OptArray;
+
+Type			::= (Type) IDENT;
+
+OptArray 		::= (Array) LBRACKET RBRACKET
+				|	(NoArray) ;
+				
+Label			::=	(Label) IDENT;
+
+Relop			::=	(RelopDoubleEqual) DOUBLEEQUAL
+				|	(RelopNotEqual) NOTEQUAL
+				|	(RelopBigger) BIGGER
+				|	(RelopBiggerEqual) BIGGEREQUAL
+				|	(RelopSmaller) SMALLER
+				|	(RelopSmallerEqual) SMALLEREQUAL;
