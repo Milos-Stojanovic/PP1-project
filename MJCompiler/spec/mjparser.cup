@@ -51,6 +51,7 @@ terminal BREAK, CLASS, ENUM, ELSE, CONST, IF, DO, WHILE, NEW, READ, VOID, EXTEND
 terminal CONTINUE, THIS, SUPER, GOTO, RECORD;
 terminal CHAR, BOOL;
 terminal MINUS, MUL, DIV, MOD, DOUBLEEQUAL, NOTEQUAL, BIGGER, BIGGEREQUAL, SMALLER, SMALLEREQUAL, ANDAND, OROR, INCREMENT, DECREMENT, COLON, DOT, LBRACKET, RBRACKET;
+terminal TRIPLEDOT;
 
 nonterminal Program;
 nonterminal VarDecl, Type;
@@ -69,6 +70,7 @@ nonterminal TermArray, ExprOpt;
 nonterminal Mulop, Factor, OptConst;
 nonterminal FactorOptActPars, OptExpr, DsgOpt, DsgElem;
 nonterminal Condition, CondTerm, CondFact, Relop;
+nonterminal VarArgs, ParsArgsWrapper;
 
 precedence left ELSE;
 
@@ -77,7 +79,13 @@ Program 		::= (Program) PROG IDENT DeclList LBRACE MethodDeclList RBRACE ;
 MethodDeclList	::= (ListMethodDecl) MethodDeclList MethodDecl
 				|	(NoMethodDeclList) ;
 				
-MethodDecl		::= (MethodDecl) MethodType IDENT LPAREN FormPars RPAREN VarDeclList LBRACE StatementList RBRACE;
+MethodDecl		::= (MethodDecl) MethodType IDENT LPAREN ParsArgsWrapper RPAREN VarDeclList LBRACE StatementList RBRACE;
+
+ParsArgsWrapper ::= (Wrapper1) FormParsElem FormParsArray COMMA VarArgs
+				|	(Wrapper2) VarArgs
+				|	(Wrapper3) FormPars;
+
+VarArgs 		::=	(VarArgs) Type TRIPLEDOT IDENT;
 
 StatementList	::= (ListOfStatements) StatementList SingleStatement
 				|	(NoStatementList) ;

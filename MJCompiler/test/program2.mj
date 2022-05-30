@@ -12,6 +12,8 @@ int x;
 {
 x = arg;
 }
+void mojaFunkcija1(int a, int...go){}
+void mojaFunkcija1(int...go){}
 void main() int x, i; char c;
 {
 val = new Table;
