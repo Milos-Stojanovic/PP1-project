@@ -14,9 +14,10 @@ public class SemanticPass extends VisitorAdaptor {
 	Struct currentStruct = null;
 	
 	Logger log = Logger.getLogger(getClass());
+	public boolean errorDetected = false;
 	
 	public void report_error(String message, SyntaxNode info) {
-//		errorDetected = true;
+		errorDetected = true;
 		StringBuilder msg = new StringBuilder(message);
 		int line = (info == null) ? 0: info.getLine();
 		if (line != 0)

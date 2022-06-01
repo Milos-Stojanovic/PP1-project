@@ -1,6 +1,6 @@
 program mj 
 
-int a, b[], c, d;
+int a, a,  b[], c, d;
 
 {
 

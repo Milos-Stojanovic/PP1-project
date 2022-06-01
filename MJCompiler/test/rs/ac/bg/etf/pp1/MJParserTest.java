@@ -38,6 +38,8 @@ public class MJParserTest {
 			MJParser p = new MJParser(lexer);
 	        Symbol s = p.parse();  //pocetak parsiranja
 	        
+	        // if uspesno 2. faza 
+	        
 	        Program prog = (Program)(s.value); 
 	        Tab.init();
 			// ispis sintaksnog stabla
@@ -55,11 +57,11 @@ public class MJParserTest {
 			log.info("===================================");
 			Tab.dump();
 			
-//			if(!p.errorDetected && v.passed()){
-//				log.info("Parsiranje uspesno zavrseno!");
-//			}else{
-//				log.error("Parsiranje NIJE uspesno zavrseno!");
-//			}
+			if(!v.errorDetected){
+				log.info("Parsiranje uspesno zavrseno!");
+			}else{
+				log.error("Parsiranje NIJE uspesno zavrseno!");
+			}
 		} 
 		finally {
 			if (br != null) try { br.close(); } catch (IOException e1) { log.error(e1.getMessage(), e1); }
