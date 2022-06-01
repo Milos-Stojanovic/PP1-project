@@ -1,32 +1,13 @@
 program mj 
 
-int a[];
-int b, v;
-m j;
-const int a = 5, b = 6;
-const char a1 = 'a', c2 = 's';
-const bool h = true, l = true, p = false;
-
-record p1 {
-	int a, b[];
-	char c, d;
-}
+int a, a,  b[], c, d;
 
 {
-	int metoda1() int a, b[]; { alfa: goto b;}
-	void metoda2(int a, bool b) char c; {goto c; goto v;}
-	void metoda3(bool l) char c; int a; char t; {}
+
+void main() {
 	
-	int metoda1() int a, b[]; { alfa: goto b; break;
-								a.b[5-4] = -15 + 20;
-								a.b[5-4](-10+5, -2);
-								a.b[5-4]--;
-								a.b[5-4]++;
-								return;
-								return -15;
-								read(blabla.bla[2]);
-								print(2*5+3*8, 2);
-							  }
-	void metoda2(int a, bool b) char c; {goto c; goto v; continue;}
-	void metoda3(bool l) char c; int a; char t; {}
+	a = b + c - d;
+
+}
+
 }
