@@ -8,6 +8,7 @@ import rs.ac.bg.etf.pp1.ast.*;
 
 parser code {:
 
+	boolean errorDetected;
 	Logger log = Logger.getLogger(getClass());
    
    
@@ -27,6 +28,7 @@ parser code {:
     }
 
     public void report_error(String message, Object info) {
+    	errorDetected = true;
     	StringBuilder msg = new StringBuilder(message); 
     	if (info instanceof Symbol)
             msg.append (" na liniji ").append(((Symbol)info).left);
@@ -36,6 +38,9 @@ parser code {:
 
 :}
 
+init with {:
+	errorDetected = false;
+:}
 
 scan with {:
 	Symbol s = this.getScanner().next_token();
@@ -53,45 +58,47 @@ terminal String CHAR, BOOL;
 terminal MINUS, MUL, DIV, MOD, DOUBLEEQUAL, NOTEQUAL, BIGGER, BIGGEREQUAL, SMALLER, SMALLEREQUAL, ANDAND, OROR, INCREMENT, DECREMENT, COLON, DOT, LBRACKET, RBRACKET;
 terminal TRIPLEDOT;
 
-nonterminal Program;
 nonterminal VarDecl, Type;
 nonterminal OptArray, VarElem, VarArray;
 nonterminal DeclList, SingleDecl, ConstDecl;
-nonterminal ConstArray, ConstElem, ConstType;
+nonterminal ConstArray;
 nonterminal RecordDecl, VarDeclList;
-nonterminal MethodDeclList, MethodDecl, MethodType;
+nonterminal MethodDeclList, MethodType;
 nonterminal FormPars, FormParsElem, FormParsArray;
 nonterminal StatementList, SingleStatement;
 nonterminal SingleStatementElem, Label;
-nonterminal DesignatorStatement, Designator, DsgArray;
-nonterminal Assignop, Expr, OptActPars, ActPars;
-nonterminal OptSub, Term, Addop;
-nonterminal TermArray, ExprOpt;
+nonterminal DesignatorStatement, DsgArray;
+nonterminal Assignop, OptActPars, ActPars;
+nonterminal OptSub, Addop;
 nonterminal Mulop, OptConst;
 nonterminal FactorOptActPars, OptExpr, DsgOpt, DsgElem;
 nonterminal Condition, CondTerm, CondFact, Relop;
 nonterminal VarArgs, ParsArgsWrapper;
 
-nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgName;
-nonterminal rs.etf.pp1.symboltable.concepts.Struct Factor;
-
+nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgName, Program;
+nonterminal rs.etf.pp1.symboltable.concepts.Obj MethodDecl, MethodTypeName, Designator;
+nonterminal rs.etf.pp1.symboltable.concepts.Struct Term, TermArray;
+nonterminal rs.etf.pp1.symboltable.concepts.Struct Factor, Expr, ExprOpt;
+nonterminal rs.etf.pp1.symboltable.concepts.Struct ConstType, ConstElem;
 
 precedence left ELSE;
 
-Program 		::= (Program) PROG ProgName DeclList LBRACE MethodDeclList RBRACE ;
+Program 		::= (Program) PROG ProgName:p DeclList LBRACE MethodDeclList RBRACE ;
 
-ProgName		::= (ProgName) IDENT:name;
+ProgName		::= (ProgName) IDENT:ProgName;
 
 MethodDeclList	::= (ListMethodDecl) MethodDeclList MethodDecl
 				|	(NoMethodDeclList) ;
 				
-MethodDecl		::= (MethodDecl) MethodType IDENT LPAREN ParsArgsWrapper RPAREN VarDeclList LBRACE StatementList RBRACE;
+MethodDecl		::= (MethodDecl) MethodTypeName LPAREN ParsArgsWrapper RPAREN VarDeclList LBRACE StatementList RBRACE;
+
+MethodTypeName	::= (MethodTypeName) MethodType:retType IDENT:methName;
 
 ParsArgsWrapper ::= (Wrapper1) FormParsElem FormParsArray COMMA VarArgs
 				|	(Wrapper2) VarArgs
 				|	(Wrapper3) FormPars;
 
-VarArgs 		::=	(VarArgs) Type TRIPLEDOT IDENT;
+VarArgs 		::=	(VarArgs) Type TRIPLEDOT IDENT:elem;
 
 StatementList	::= (ListOfStatements) StatementList SingleStatement
 				|	(NoStatementList) ;
@@ -105,7 +112,7 @@ SingleStatementElem		::=	(SingleStmtElemDsgStmt) DesignatorStatement SEMI
 						|	(SingleStmtElemDo) DO SingleStatement WHILE LPAREN Condition RPAREN SEMI
 						|	(SingleStmtElemBreak) BREAK SEMI
 						|	(SingleStmtElemContinue) CONTINUE SEMI
-						|	(SingleStmtElemReturn) RETURN ExprOpt SEMI
+						|	(SingleStmtElemReturn) RETURN ExprOpt:optRet SEMI
 						|	(SingleStmtElemRead) READ LPAREN Designator RPAREN SEMI
 						|	(SingleStmtElemPrint) PRINT LPAREN Expr OptConst RPAREN SEMI
 						|	(SingleStmtElemGoto) GOTO Label SEMI
@@ -120,28 +127,28 @@ CondTerm		::= (MultipleCondTermFacts) CondTerm ANDAND CondFact
 CondFact		::= (DoubleCondFact) Expr Relop Expr
 				|	(SingleCondFact) Expr;
 
-DesignatorStatement		::=	(DesignatorStatement) Designator DsgArray;
+DesignatorStatement		::=	(DesignatorStatement) Designator:dest DsgArray;
 
 DsgArray		::=	(DsgArrayAE) Assignop Expr
 				|	(DsgArrayActPars) LPAREN OptActPars RPAREN
 				|	(DsgArrayInc) INCREMENT
 				|	(DsgArrayDec) DECREMENT;
 				
-ExprOpt			::=	(YesExprOpt) Expr
+ExprOpt			::=	(YesExprOpt) Expr:e
 				|	(NoExprOpt) ;
 				
 OptConst		::= (YesOptConst) COMMA NUMBER
 				|	(NoOptConst) ;
 				
-Expr			::= (Expr) OptSub TermArray;
+Expr			::= (Expr) OptSub TermArray:ta;
 
-TermArray		::= (MultipleTerm) TermArray Addop Term
-				|	(SingleTerm) Term;
+TermArray		::= (MultipleTerm) TermArray:te Addop Term:t
+				|	(SingleTerm) Term:t;
 				
-Term			::= (MultipleFactor) Term Mulop Factor
-				|	(SingleFactor) Factor;
+Term			::= (MultipleFactor) Term:t Mulop Factor:f
+				|	(SingleFactor) Factor:f;
 				
-Factor			::=	(FactorDesg) Designator FactorOptActPars
+Factor			::=	(FactorDesg) Designator:d FactorOptActPars
 				|	(FactorNum) NUMBER
 				|	(FactorChar) CHAR
 				|	(FactorBool) BOOL
@@ -186,7 +193,7 @@ FormPars		::= (ListFormPars) FormParsElem FormParsArray
 FormParsArray	::= (ArrayOfFormPars) FormParsArray COMMA FormParsElem
 				|	(NoFormParsArray) ;
 				
-FormParsElem	::= (FormParsElem) Type IDENT OptArray;
+FormParsElem	::= (FormParsElem) Type IDENT:elem OptArray;
 
 MethodType		::= (NonVoidTypeMethod) Type
 				|	(VoidTypeMethod) VOID;
@@ -195,10 +202,7 @@ DeclList		::= (DeclListRec) DeclList SingleDecl
 				|	(NoDeclList) ;
 				
 SingleDecl		::= (SingleVar) VarDecl
-				|	(SingleConst) ConstDecl
-				|	(SingleRecord) RecordDecl;
-				
-RecordDecl		::= (RecordDecl) RECORD IDENT LBRACE VarDeclList RBRACE;
+				|	(SingleConst) ConstDecl;
 
 VarDeclList		::= (ListVarDecl) VarDeclList VarDecl
 				|	(NoVarDeclList) ;
@@ -219,9 +223,9 @@ VarDecl			::= (VarDecl) Type VarElem VarArray SEMI;
 VarArray		::= (VarArrayRec) VarArray COMMA VarElem
 				|	(NoVarArray) ;
 
-VarElem			::= (VarElem) IDENT OptArray;
+VarElem			::= (VarElem) IDENT:varElem OptArray;
 
-Type			::= (Type) IDENT;
+Type			::= (Type) IDENT:typeName;
 
 OptArray 		::= (Array) LBRACKET RBRACKET
 				|	(NoArray) ;

@@ -8,7 +8,7 @@
 				<exclude name="sym_old.java"/>
 				<exclude name="util/Log4JUtils.java"/>
 				<exclude name="Yylex.java"/>
-				<exclude name="SemanticPass.java"/>
+				<exclude name="SemanticAnalyzer.java"/>
 				
 			</fileset>
 		</delete>

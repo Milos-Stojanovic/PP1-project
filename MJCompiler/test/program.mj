@@ -1,13 +1,33 @@
 program mj 
 
-int a, a,  b[], c, d;
+bool k, l;
+int a,  b[], c, d, k1;
+const char p = 'a';
 
 {
 
-void main() {
+bool m1(int a, int b, int c, bool d[], int... k0) int k1, k2[];{
+		k1 = 0;
+		c++;
+		k2[0] = 5;
+		//m2(k1);
+		//return 8*5+k*5;
+		return k;
+	}
 	
-	a = b + c - d;
+//int m1() int k, k2;{
+//		k = 0;
+//		return k3;
+//	}
 
+void main() {
+
+	l=false;
+	//a = b + c - d + k;
+	a = c - d;
+	//int p1;
+	
 }
 
 }
+
