@@ -62,7 +62,6 @@ import java_cup.runtime.Symbol;
 "this"			{ return new_symbol(sym.THIS, yytext()); }
 "super"			{ return new_symbol(sym.SUPER, yytext()); }
 "goto"			{ return new_symbol(sym.GOTO, yytext()); }
-"record"		{ return new_symbol(sym.RECORD, yytext()); }
 
 "..."			{ return new_symbol(sym.TRIPLEDOT, yytext()); }
 "++"			{ return new_symbol(sym.INCREMENT, yytext()); }
