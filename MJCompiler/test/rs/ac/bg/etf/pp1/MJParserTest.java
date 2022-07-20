@@ -57,7 +57,7 @@ public class MJParserTest {
 			log.info("===================================");
 			Tab.dump();
 			
-			if(!v.errorDetected){
+			if(!v.errorDetected && v.mainDetected){
 				log.info("Parsiranje uspesno zavrseno!");
 			}else{
 				log.error("Parsiranje NIJE uspesno zavrseno!");

@@ -53,7 +53,7 @@ terminal PROG, LBRACE, RBRACE, SEMI, LPAREN, RPAREN, EQUAL, RETURN, PLUS, COMMA,
 terminal Integer NUMBER;
 terminal String IDENT;
 terminal BREAK, CLASS, ENUM, ELSE, CONST, IF, DO, WHILE, NEW, READ, VOID, EXTENDS;
-terminal CONTINUE, THIS, SUPER, GOTO, RECORD;
+terminal CONTINUE, THIS, SUPER, GOTO;
 terminal String CHAR, BOOL;
 terminal MINUS, MUL, DIV, MOD, DOUBLEEQUAL, NOTEQUAL, BIGGER, BIGGEREQUAL, SMALLER, SMALLEREQUAL, ANDAND, OROR, INCREMENT, DECREMENT, COLON, DOT, LBRACKET, RBRACKET;
 terminal TRIPLEDOT;
@@ -62,7 +62,7 @@ nonterminal VarDecl, Type;
 nonterminal OptArray, VarElem, VarArray;
 nonterminal DeclList, SingleDecl, ConstDecl;
 nonterminal ConstArray;
-nonterminal RecordDecl, VarDeclList;
+nonterminal VarDeclList;
 nonterminal MethodDeclList, MethodType;
 nonterminal FormPars, FormParsElem, FormParsArray;
 nonterminal StatementList, SingleStatement;
@@ -74,6 +74,7 @@ nonterminal Mulop, OptConst;
 nonterminal FactorOptActPars, OptExpr, DsgOpt, DsgElem;
 nonterminal Condition, CondTerm, CondFact, Relop;
 nonterminal VarArgs, ParsArgsWrapper;
+nonterminal OptArgs, OptArgsArray, OptArgsElem;
 
 nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgName, Program;
 nonterminal rs.etf.pp1.symboltable.concepts.Obj MethodDecl, MethodTypeName, Designator;
@@ -96,7 +97,17 @@ MethodTypeName	::= (MethodTypeName) MethodType:retType IDENT:methName;
 
 ParsArgsWrapper ::= (Wrapper1) FormParsElem FormParsArray COMMA VarArgs
 				|	(Wrapper2) VarArgs
-				|	(Wrapper3) FormPars;
+				|	(Wrapper3) FormPars
+				|	(Wrapper4) FormParsElem FormParsArray COMMA OptArgsArray
+				|	(Wrapper5) OptArgsArray;
+				
+OptArgs			::= (YesOptArgs) OptArgsArray
+				|	(NoOptArgs) ;
+
+OptArgsArray	::= (ArrayOfOptArgs) OptArgsElem COMMA OptArgsArray
+				|	(NoOptArgsArray) OptArgsElem;
+				
+OptArgsElem		::= (OptArgsElem) Type IDENT:t EQUAL ConstType;
 
 VarArgs 		::=	(VarArgs) Type TRIPLEDOT IDENT:elem;
 
