@@ -15,6 +15,19 @@ bool m1(int a, int b, int c, bool d[], int... k0) int k1, k2[];{
 		return k;
 	}
 	
+bool m2(int a, int b, int c, bool d[], int k8 = 9, bool lo = false) int k1, k2[];{
+		k1 = 0;
+		//k++;
+		c++;
+		k8--;
+		//lo--;
+		k2[0] = 5;
+		m1(k1);
+		//m2(k1);
+		//return 8*5+k*5;
+		return k;
+	}
+	
 //int m1() int k, k2;{
 //		k = 0;
 //		return k3;

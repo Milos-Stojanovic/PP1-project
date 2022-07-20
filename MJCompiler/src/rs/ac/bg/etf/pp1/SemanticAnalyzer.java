@@ -21,6 +21,11 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 	boolean returnDetected = false;
 	Struct retRightType = null;
 	Struct currExprStruct = null;
+	int currMethodParNum = 0;
+	Obj currentDesignator = null;
+	Obj currentMethodDesignator = null;
+	
+	boolean mainDetected = false;
 	
 	
 	Logger log = Logger.getLogger(getClass());
@@ -63,6 +68,10 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 	
 	public void visit(Type type) { 
 		currentStruct = Tab.find(type.getTypeName()).getType();
+		if (currentStruct == null) {
+			report_error("Greska u liniji " + type.getLine() + ", ne postoji tip " + type.getTypeName() , null);
+			currentStruct = Tab.noType;
+		}
 		//System.out.println(currentStruct.getKind());
 	}
 	
@@ -101,11 +110,24 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 	}
 	
 	public void visit(MethodTypeName methodTypeName) {
-		currentMethod = Tab.insert(Obj.Meth, methodTypeName.getMethName(), currentStruct);
-		currentMethodRetType = currentStruct;
-		methodTypeName.obj = currentMethod;
-		Tab.openScope();
-		report_info("Obradjuje se funkcija "+ methodTypeName.getMethName(), methodTypeName);
+		
+		Obj obj = Tab.find(methodTypeName.getMethName());
+		
+		if(obj != Tab.noObj) {
+			currentMethod = obj;
+			currentMethodRetType = currentStruct;
+			methodTypeName.obj = currentMethod;
+			Tab.openScope();
+			report_info("Obradjuje se funkcija "+ methodTypeName.getMethName(), methodTypeName);
+			report_error("postoji funkcija ", methodTypeName);
+		}
+		else {
+			currentMethod = Tab.insert(Obj.Meth, methodTypeName.getMethName(), currentStruct);
+			currentMethodRetType = currentStruct;
+			methodTypeName.obj = currentMethod;
+			Tab.openScope();
+			report_info("Obradjuje se funkcija "+ methodTypeName.getMethName(), methodTypeName);
+		}
 	}
 	
 	public void visit(MethodDecl methodDecl) {
@@ -115,6 +137,11 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 					+ " metoda " + methodDecl.getMethodTypeName().getMethName() + " nema return!", null);
 		}
 		
+		if (currentMethodRetType == Tab.noType && methodDecl.getMethodTypeName().getMethName().equals("main")
+				&& currMethodParNum == 0) {
+			mainDetected = true;
+		}
+		
 		Tab.chainLocalSymbols(currentMethod);
 		Tab.closeScope();
 		
@@ -122,6 +149,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 		currentMethodRetType = null;
 		returnDetected = false;
 		retRightType = null;
+		currMethodParNum = 0;
 	}
 	
 	public void visit(Designator designator) {
@@ -131,6 +159,10 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 					+ "ime " + designator.getI1() + " nije deklarisano!", null);
 		}
 		designator.obj = obj;
+		currentDesignator = obj;
+		if(obj.getKind() == Obj.Meth) {
+			currentMethodDesignator = obj;
+		}
 	}
 	
 	public void visit(DesignatorStatement designatorStatement) {
@@ -148,11 +180,13 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 			//report_info(factorDesignator.getFactorOptActPars().toString(), null);
 			Obj obj = Tab.find(designatorStatement.getDesignator().getI1());
 			if(obj == Tab.noObj) {
-				report_error("Greska na liniji " + designatorStatement.getDesignator().getLine() + ": "
-						+ "ime " + designatorStatement.getDesignator().getI1() + " nije deklarisano!", null);
+				/*report_error("Greska na liniji " + designatorStatement.getDesignator().getLine() + ": "
+						+ "ime " + designatorStatement.getDesignator().getI1() + " nije deklarisano!", null);*/
 			}
 			designatorStatement.getDesignator().obj = obj;
 		}
+		currentDesignator = null;
+		currentMethodDesignator = null;
 		
 	}
 	
@@ -164,6 +198,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 			report_error("postoji promenljiva", argElem);
 		}
 		else {
+			currMethodParNum++;
 			boolean isArray = argElem.getOptArray() instanceof Array;
 			
 			if (isArray) {
@@ -174,8 +209,23 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 				Tab.insert(Obj.Var, argElem.getElem(), currentStruct);
 			}
 			
-			Tab.insert(Obj.Var, argElem.getElem(), currentStruct);
+			//Tab.insert(Obj.Var, argElem.getElem(), currentStruct);
 			report_info("Deklarisana promenljiva "+argElem.getElem(), argElem);
+		}
+	}
+	
+	public void visit(OptArgsElem optArg) {
+		Obj obj = Tab.find(optArg.getT());
+		
+		if(obj != Tab.noObj && obj.getLevel() == 1) {
+			// error
+			report_error("postoji promenljiva", optArg);
+		}
+		else {
+			currMethodParNum++;
+			
+			Tab.insert(Obj.Var, optArg.getT(), currentStruct);
+			report_info("Deklarisana promenljiva "+optArg.getT(), optArg);
 		}
 	}
 	
@@ -301,6 +351,53 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 			report_info("Deklarisana konstanta " + constElem.getI1() + " na liniji " + constElem.getLine(), null);
 			constElem.struct = currentStruct;
 			Tab.insert(Obj.Con, constElem.getI1(), currentStruct);
+		}
+	}
+	
+	public void visit(DsgArrayAE dsgStmt) {
+		Obj obj = Tab.find(currentDesignator.getName());
+		if(!(obj.getKind() == Obj.Var)) {
+			report_error("Greska, na liniji " + dsgStmt.getLine() + " se ne nalazi promenljiva/element niza!", dsgStmt);
+		}
+		Struct dsg = currentDesignator.getType();
+		Struct assigned = dsgStmt.getExpr().struct;
+		//System.out.println(dsg);
+		//System.out.println(assigned);
+		if(dsg.equals(assigned)){
+    	}else{
+    		if(dsg.getElemType() != null && dsg.getElemType().equals(assigned)) {
+    			
+    		}
+    		else
+    			report_error("Greska na liniji "+ dsgStmt.getLine()+" : nekompatibilni tipovi u izrazu za dodelu vrednosti.", null);
+    	}
+	}
+	
+	public void visit(DsgArrayInc inc) {
+		Obj obj = Tab.find(currentDesignator.getName());
+		if(!(obj.getKind() == Obj.Var)) {
+			report_error("Greska, na liniji " + inc.getLine() + " se ne nalazi promenljiva/element niza!", inc);
+		}
+		if(obj.getType() != Tab.intType) {
+			report_error("Greska na liniji "+ inc.getLine()+" : promenljiva cija se vrednost inkrementira nije tipa int.", null);
+		}
+	}
+	
+	public void visit(DsgArrayDec dec) {
+		Obj obj = Tab.find(currentDesignator.getName());
+		if(!(obj.getKind() == Obj.Var)) {
+			report_error("Greska, na liniji " + dec.getLine() + " se ne nalazi promenljiva/element niza!", dec);
+		}
+		if(obj.getType() != Tab.intType) {
+			report_error("Greska na liniji "+ dec.getLine()+" : promenljiva cija se vrednost dekrementira nije tipa int.", null);
+		}
+	}
+	
+	public void visit(DsgArrayActPars dsgPars) {
+		//System.out.println(currentMethodDesignator);
+		Obj obj = Tab.find(currentMethodDesignator.getName());
+		if(!(obj.getKind() == Obj.Meth)) {
+			report_error("Greska, na liniji " + dsgPars.getLine() + " se ne nalazi globalna funkcija!", dsgPars);
 		}
 	}
 	
