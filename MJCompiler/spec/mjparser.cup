@@ -71,16 +71,19 @@ nonterminal DesignatorStatement, DsgArray;
 nonterminal Assignop, OptActPars, ActPars;
 nonterminal OptSub, Addop;
 nonterminal Mulop, OptConst;
-nonterminal FactorOptActPars, OptExpr, DsgOpt, DsgElem;
-nonterminal Condition, CondTerm, CondFact, Relop;
+nonterminal FactorOptActPars;
+nonterminal Relop;
 nonterminal VarArgs, ParsArgsWrapper;
 nonterminal OptArgs, OptArgsArray, OptArgsElem;
+nonterminal DoWhileBegin, ArrayRelop;
 
 nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgName, Program;
 nonterminal rs.etf.pp1.symboltable.concepts.Obj MethodDecl, MethodTypeName, Designator;
 nonterminal rs.etf.pp1.symboltable.concepts.Struct Term, TermArray;
 nonterminal rs.etf.pp1.symboltable.concepts.Struct Factor, Expr, ExprOpt;
 nonterminal rs.etf.pp1.symboltable.concepts.Struct ConstType, ConstElem;
+nonterminal rs.etf.pp1.symboltable.concepts.Struct FactorUn, OptExpr, DsgOpt, DsgElem;
+nonterminal rs.etf.pp1.symboltable.concepts.Struct Condition, CondTerm, CondFact;
 
 precedence left ELSE;
 
@@ -95,11 +98,9 @@ MethodDecl		::= (MethodDecl) MethodTypeName LPAREN ParsArgsWrapper RPAREN VarDec
 
 MethodTypeName	::= (MethodTypeName) MethodType:retType IDENT:methName;
 
-ParsArgsWrapper ::= (Wrapper1) FormParsElem FormParsArray COMMA VarArgs
-				|	(Wrapper2) VarArgs
-				|	(Wrapper3) FormPars
-				|	(Wrapper4) FormParsElem FormParsArray COMMA OptArgsArray
-				|	(Wrapper5) OptArgsArray;
+ParsArgsWrapper ::= (Wrapper1) FormPars
+				|	(Wrapper2) FormParsElem FormParsArray COMMA OptArgsArray
+				|	(Wrapper3) OptArgsArray;
 				
 OptArgs			::= (YesOptArgs) OptArgsArray
 				|	(NoOptArgs) ;
@@ -108,8 +109,6 @@ OptArgsArray	::= (ArrayOfOptArgs) OptArgsElem COMMA OptArgsArray
 				|	(NoOptArgsArray) OptArgsElem;
 				
 OptArgsElem		::= (OptArgsElem) Type IDENT:t EQUAL ConstType;
-
-VarArgs 		::=	(VarArgs) Type TRIPLEDOT IDENT:elem;
 
 StatementList	::= (ListOfStatements) StatementList SingleStatement
 				|	(NoStatementList) ;
@@ -120,7 +119,7 @@ SingleStatement	::=	(SingleStatementLabel) Label COLON SingleStatementElem
 SingleStatementElem		::=	(SingleStmtElemDsgStmt) DesignatorStatement SEMI
 						|	(SingleStmtElemIfElse) IF LPAREN Condition RPAREN SingleStatement ELSE SingleStatement
 						|	(SingleStmtElemIf) IF LPAREN Condition RPAREN SingleStatement
-						|	(SingleStmtElemDo) DO SingleStatement WHILE LPAREN Condition RPAREN SEMI
+						|	(SingleStmtElemDo) DoWhileBegin SingleStatement WHILE LPAREN Condition RPAREN SEMI
 						|	(SingleStmtElemBreak) BREAK SEMI
 						|	(SingleStmtElemContinue) CONTINUE SEMI
 						|	(SingleStmtElemReturn) RETURN ExprOpt:optRet SEMI
@@ -128,6 +127,8 @@ SingleStatementElem		::=	(SingleStmtElemDsgStmt) DesignatorStatement SEMI
 						|	(SingleStmtElemPrint) PRINT LPAREN Expr OptConst RPAREN SEMI
 						|	(SingleStmtElemGoto) GOTO Label SEMI
 						|	(SingleStmtElemNewStmt) LBRACE StatementList RBRACE;
+		
+DoWhileBegin	::=	(DoWhileBegin) DO;
 				
 Condition		::=	(MultipleCondition) Condition OROR CondTerm
 				|	(SingleCondition) CondTerm;
@@ -135,7 +136,7 @@ Condition		::=	(MultipleCondition) Condition OROR CondTerm
 CondTerm		::= (MultipleCondTermFacts) CondTerm ANDAND CondFact
 				|	(SingleCondTermFact) CondFact;
 				
-CondFact		::= (DoubleCondFact) Expr Relop Expr
+CondFact		::= (DoubleCondFact) Expr:e1 Relop Expr:e2
 				|	(SingleCondFact) Expr;
 
 DesignatorStatement		::=	(DesignatorStatement) Designator:dest DsgArray;
@@ -151,13 +152,16 @@ ExprOpt			::=	(YesExprOpt) Expr:e
 OptConst		::= (YesOptConst) COMMA NUMBER
 				|	(NoOptConst) ;
 				
-Expr			::= (Expr) OptSub TermArray:ta;
+Expr			::= (Expr) TermArray:ta;
 
 TermArray		::= (MultipleTerm) TermArray:te Addop Term:t
 				|	(SingleTerm) Term:t;
 				
-Term			::= (MultipleFactor) Term:t Mulop Factor:f
-				|	(SingleFactor) Factor:f;
+Term			::= (MultipleFactor) Term:t Mulop FactorUn:f
+				|	(SingleFactor) FactorUn:f;
+				
+FactorUn		::=	(FactorMinus) MINUS Factor
+				|	(FactorNoMinus) Factor;
 				
 Factor			::=	(FactorDesg) Designator:d FactorOptActPars
 				|	(FactorNum) NUMBER
@@ -243,9 +247,13 @@ OptArray 		::= (Array) LBRACKET RBRACKET
 				
 Label			::=	(Label) IDENT;
 
-Relop			::=	(RelopDoubleEqual) DOUBLEEQUAL
-				|	(RelopNotEqual) NOTEQUAL
+Relop			::=	(ArrayRelop1) ArrayRelop 
 				|	(RelopBigger) BIGGER
 				|	(RelopBiggerEqual) BIGGEREQUAL
 				|	(RelopSmaller) SMALLER
 				|	(RelopSmallerEqual) SMALLEREQUAL;
+				
+ArrayRelop		::=	(RelopDoubleEqual) DOUBLEEQUAL
+				|	(RelopNotEqual) NOTEQUAL;
+
+
