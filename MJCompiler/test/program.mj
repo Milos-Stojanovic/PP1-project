@@ -3,16 +3,34 @@ program mj
 bool k, l;
 int a,  b[], c, d, k1;
 const char p = 'a';
+int pp[];
+char kk[];
 
 {
 
-bool m1(int a, int b, int c, bool d[], int... k0) int k1, k2[];{
-		k1 = 0;
+int m1(int a, int b, int c, bool d[], int l = 5) int k1, k2[];{
+		k1 = -m5(k);
+		k2 = true+5;
+		k2 = -'a';
 		c++;
 		k2[0] = 5;
-		//m2(k1);
+		break;
+		read(a[1]);
+		continue;
+		print(k0[5]);
+		a = k0[0] + k0[1]; 
+		m2(k1);
 		//return 8*5+k*5;
-		return k;
+		pp = new int[a];
+		pp[0] = k1;
+		c = k0[7];
+		do{
+			a++;
+		} while(a<5 && k || k0 != pp);
+		continue;
+		len(k0);
+		break;
+		return 3;
 	}
 	
 bool m2(int a, int b, int c, bool d[], int k8 = 9, bool lo = false) int k1, k2[];{
@@ -22,7 +40,7 @@ bool m2(int a, int b, int c, bool d[], int k8 = 9, bool lo = false) int k1, k2[]
 		k8--;
 		//lo--;
 		k2[0] = 5;
-		m1(k1);
+		m1(k1, k1, k1, d, k2[0]);
 		//m2(k1);
 		//return 8*5+k*5;
 		return k;
@@ -35,10 +53,16 @@ bool m2(int a, int b, int c, bool d[], int k8 = 9, bool lo = false) int k1, k2[]
 
 void main() {
 
+	b = new int[5];
 	l=false;
+	if (l == false)
+		print(l);
+	else
+		print(a);
 	//a = b + c - d + k;
 	a = c - d;
 	//int p1;
+	return;
 	
 }
 
