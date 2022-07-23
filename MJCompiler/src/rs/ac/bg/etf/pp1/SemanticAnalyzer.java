@@ -34,6 +34,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 	ArrayList<TypeHelper> types = new ArrayList<>();
 
 	boolean mainDetected = false;
+	int nVars;
 	
 	
 	public class MethodHelper{
@@ -127,6 +128,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 	}
 
 	public void visit(Program prog) {
+		nVars = Tab.currentScope().getnVars();
 		Tab.chainLocalSymbols(prog.getProgName().obj);
 		Tab.closeScope();
 	}
