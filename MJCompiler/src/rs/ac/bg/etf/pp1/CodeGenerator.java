@@ -17,6 +17,8 @@ public class CodeGenerator extends VisitorAdaptor {
 
 	private int mainPc;
 	
+	private boolean minusFlag = false;
+	
 	public int getMainPc() {
 		return mainPc;
 	}
@@ -24,33 +26,36 @@ public class CodeGenerator extends VisitorAdaptor {
 	public void visit(ProgName ProgramName) {
         super.visit(ProgramName);
         
-        Obj method = Tab.find("chr");
-        method.setAdr(Code.pc);
-        Code.put(Code.enter);
-        Code.put(method.getLevel());
-        Code.put(method.getLocalSymbols().size());
-        Code.put(Code.load_n + 0);
-        Code.put(Code.exit);
-        Code.put(Code.return_);
-        
-        method = Tab.find("len");
-        method.setAdr(Code.pc);
-        Code.put(Code.enter);
-        Code.put(method.getLevel());
-        Code.put(method.getLocalSymbols().size());
-        Code.put(Code.load_n + 0);
-        Code.put(Code.arraylength);
-        Code.put(Code.exit);
-        Code.put(Code.return_);
-        
-        method = Tab.find("ord");
-        method.setAdr(Code.pc);
-        Code.put(Code.enter);
-        Code.put(method.getLevel());
-        Code.put(method.getLocalSymbols().size());
-        Code.put(Code.load_n + 0);
-        Code.put(Code.exit);
-        Code.put(Code.return_);
+      //len -> duzinu
+      		Obj obj = Tab.find("len");
+      		obj.setAdr(Code.pc);
+      		Code.put(Code.enter);
+      		Code.put(obj.getLevel());
+      		Code.put(obj.getLocalSymbols().size());
+      		Code.put(Code.load_n);
+      		Code.put(Code.arraylength);
+      		Code.put(Code.exit);
+      		Code.put(Code.return_);
+      		
+      		//chr 
+      		obj =Tab.find("chr");
+      		obj.setAdr(Code.pc);
+      		Code.put(Code.enter);
+      		Code.put(obj.getLevel());
+      		Code.put(obj.getLocalSymbols().size());
+      		Code.put(Code.load_n);
+      		Code.put(Code.exit);
+      		Code.put(Code.return_);
+      		
+      		// ord -> vraca ascii
+      		obj = Tab.find("ord");
+      		obj.setAdr(Code.pc);
+      		Code.put(Code.enter);
+      		Code.put(obj.getLevel());
+      		Code.put(obj.getLocalSymbols().size());
+      		Code.put(Code.load_n);
+      		Code.put(Code.exit);
+      		Code.put(Code.return_);
     }
 	
 	public void visit(SingleStmtElemPrint stmt) {
@@ -120,6 +125,11 @@ public class CodeGenerator extends VisitorAdaptor {
 		con.setLevel(1);
 		System.out.println(con.getAdr());
 		con.setAdr(factorNum.getN1());
+		
+		if(minusFlag) {
+			con.setAdr(-factorNum.getN1());
+			minusFlag = false;
+		}
 		
 		Code.load(con);
 	}
@@ -193,9 +203,9 @@ public class CodeGenerator extends VisitorAdaptor {
 	
 	// DESIGNATOR 
 	
-	public void visit(Designator designator) {
-		
-	}
+//	public void visit(Designator designator) {
+//		
+//	}
 	
 	public void visit(DesignatorStatement dsgStmt) {
 		
@@ -208,21 +218,41 @@ public class CodeGenerator extends VisitorAdaptor {
 				Code.put(Code.newarray);
 				
 				if(dsg.getType().getElemType() == Tab.charType) {
-					Code.loadConst(0);
+					Code.put(0);
 				}
 				else {
-					Code.loadConst(1);
+					Code.put(1);
 				}
 				Code.store(dsg);
 				
 			}
 			else {
 				Obj dsg = dsgStmt.getDesignator().obj;
-				Code.store(dsg);
+				// provera da li je levo od = element niza ili nije
+				System.out.println("ASDASDASDA  "+dsg.getType().getKind());
+				if(dsg.getType().getElemType() == null || !(dsgStmt.getDesignator().getDsgOpt() instanceof DesignatorOpt)) {
+					Code.store(dsg);
+				}
+				else {
+					Code.load(dsg);
+					Code.put(Code.dup_x2);
+					Code.put(Code.pop);
+					if(dsg.getType().getElemType() == Tab.charType) { // ako je u pitanju niz char-ova
+						Code.put(Code.bastore);
+					}
+					else { // ako je u pitanju niz int-ova
+						Code.put(Code.astore);
+					}
+				}
 			}
 		}
 		if(dsgStmt.getDsgArray() instanceof DsgArrayActPars) { // DONE
 			// za slucaj pozivanja metode
+			/*if(dsgStmt.getDesignator().obj.getName().equals("len")) {
+				Code.loadConst(dsgStmt.getDesignator().obj.getAdr());
+				Code.put(Code.arraylength);
+				return;
+			}*/
 			SyntaxNode methodNode = dsgStmt.getDesignator().getParent();
 			
 			ActParsCounter fpCnt = new ActParsCounter();
@@ -264,10 +294,27 @@ public class CodeGenerator extends VisitorAdaptor {
 	
 	public void visit(FactorDesg dsg) {
 		if(dsg.getFactorOptActPars() instanceof NoFactorOptActPars) {
-			Code.load(dsg.getDesignator().obj);
+			if(dsg.getDesignator().getDsgOpt() instanceof DesignatorOpt) { // u pitanju je element niza
+				Code.load(dsg.getDesignator().obj);
+				Code.put(Code.dup_x1);
+				Code.put(Code.pop);
+				if(dsg.getDesignator().obj.getType().getElemType() == Tab.charType) { // ako je u pitanju niz char-ova
+					Code.put(Code.baload);
+				}
+				else { // ako je u pitanju niz int-ova
+					Code.put(Code.aload);
+				}
+			}
+			else
+				Code.load(dsg.getDesignator().obj);
 		}
 		else {
 			// za slucaj pozivanja metode
+			/*if(dsg.getDesignator().obj.getName().equals("len")) {
+				Code.loadConst(dsg.getDesignator().obj.getAdr());
+				Code.put(Code.arraylength);
+				return;
+			}*/
 			SyntaxNode methodNode = dsg.getDesignator().getParent();
 			
 			ActParsCounter fpCnt = new ActParsCounter();
@@ -301,6 +348,10 @@ public class CodeGenerator extends VisitorAdaptor {
         }
 		Code.store(StatementRead.getDesignator().obj);
     }
+	
+	public void visit(OptMinus optMinus) {
+		minusFlag = true;
+	}
 	
 	
 	
