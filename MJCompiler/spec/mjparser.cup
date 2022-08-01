@@ -227,7 +227,7 @@ ConstDecl		::= (ConstDecl) CONST Type ConstElem ConstArray SEMI;
 ConstArray		::= (ArrayOfConst) ConstArray COMMA ConstElem
 				|	(NoConstArray) ;
 				
-ConstElem		::= (ConstElem) IDENT EQUAL ConstType;
+ConstElem		::= (ConstElem) IDENT:ident EQUAL ConstType;
 
 ConstType		::= (NumConstType) NUMBER	
 				|	(CharConstType) CHAR

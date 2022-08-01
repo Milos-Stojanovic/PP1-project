@@ -9,31 +9,33 @@ char kk[];
 {
 
 int m1(int a, int b, int c, bool d[], int l = 5) int k1, k2[];{
-		k1 = -m5(k);
-		k2 = true+5;
-		k2 = -'a';
-		c++;
+		//k1 = -m5(k);
+		//k2 = 5;
+		//k2 = -'a';
+		koto: c++;
+		goto koto;
 		k2[0] = 5;
-		break;
-		read(a[1]);
-		continue;
-		print(k0[5]);
-		a = k0[0] + k0[1]; 
-		m2(k1);
+		//break;
+		read(a);
+		//continue;
+		print(k2[5]);
+		a = k2[0] + k2[1]; 
+		//m2(k1);
 		//return 8*5+k*5;
 		pp = new int[a];
 		pp[0] = k1;
-		c = k0[7];
+		c = 7;
 		do{
 			a++;
-		} while(a<5 && k || k0 != pp);
-		continue;
-		len(k0);
-		break;
+		} while(a<5 && k || k2 != pp);
+		//continue;
+		len(k2);
+		//break;
 		return 3;
 	}
 	
 bool m2(int a, int b, int c, bool d[], int k8 = 9, bool lo = false) int k1, k2[];{
+		//goto koto;
 		k1 = 0;
 		//k++;
 		c++;
