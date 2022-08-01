@@ -316,7 +316,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 		else {
 			if(designator.getDsgOpt() instanceof DesignatorOpt) {
 				arrayElem = true;
-				if(!findArrayByName(designator.obj.getName()).instantiated) {
+				if(findArrayByName(designator.obj.getName())!= null && !findArrayByName(designator.obj.getName()).instantiated) {
 					report_error("Greska, na liniji " + designator.getLine() + " se nalazi neinicijalizovana promenljiva tipa niza!", null);
 				}
 			}
@@ -661,6 +661,16 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 			report_error(
 					"Greska na liniji " + dec.getLine() + " : promenljiva cija se vrednost dekrementira nije tipa int.",
 					null);
+		}
+	}
+	
+	public void visit(OptActParsFactor asdf) {
+		currentMethodHelperIndex = 0;
+		Obj obj = null;
+		if (currentMethodDesignator != null)
+			obj = Tab.find(currentMethodDesignator.getName());
+		if ( obj == null || !(obj.getKind() == Obj.Meth)) {
+			report_error("Greska, na liniji " + asdf.getLine() + " se ne nalazi globalna funkcija!", asdf);
 		}
 	}
 

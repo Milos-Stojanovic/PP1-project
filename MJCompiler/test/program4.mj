@@ -4,9 +4,9 @@ program MJProgram
 	int niz[];
 {
 
-	int k(int b = 10) int c; {
+	int k(int k[], int c1 = 5) int c; {
 		c = 2;
-		return c * b;
+		return k[1] * k[2] * c * c1;
 	}
 
 	void main() {
@@ -20,13 +20,16 @@ program MJProgram
 		//y--;
 		//read(y);
 		//print(k1 + k2);
-		niz = new int[2];
+		niz = new int[3];
 		niz[0] = 1;
 		niz[1] = 2;
 		niz[2] = 3;
-		x = k() + niz[2];
-		k(y);
+		//niz[1] = niz[2];
+		x = k(niz) + niz[1] + niz[2];
+		//k(y);
 		print(x + y + 2, 2);
+		x = len(niz);
+		print(x);
 	}
 
 }

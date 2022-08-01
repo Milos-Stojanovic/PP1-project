@@ -75,7 +75,7 @@ nonterminal FactorOptActPars;
 nonterminal Relop;
 nonterminal VarArgs, ParsArgsWrapper;
 nonterminal OptArgs, OptArgsArray, OptArgsElem;
-nonterminal DoWhileBegin, ArrayRelop;
+nonterminal DoWhileBegin, ArrayRelop, OptMinus;
 
 nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgName, Program;
 nonterminal rs.etf.pp1.symboltable.concepts.Obj MethodDecl, MethodTypeName, Designator;
@@ -160,8 +160,10 @@ TermArray		::= (MultipleTerm) TermArray:te Addop Term:t
 Term			::= (MultipleFactor) Term:t Mulop FactorUn:f
 				|	(SingleFactor) FactorUn:f;
 				
-FactorUn		::=	(FactorMinus) MINUS Factor
+FactorUn		::=	(FactorMinus) OptMinus Factor
 				|	(FactorNoMinus) Factor;
+				
+OptMinus		::= (OptMinus) MINUS;
 				
 Factor			::=	(FactorDesg) Designator:d FactorOptActPars
 				|	(FactorNum) NUMBER
