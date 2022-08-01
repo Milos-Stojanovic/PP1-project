@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import org.apache.log4j.Logger;
 
 import rs.ac.bg.etf.pp1.ast.*;
-import rs.ac.bg.etf.pp1.ast.SyntaxNode;
-import rs.ac.bg.etf.pp1.ast.VisitorAdaptor;
 import rs.etf.pp1.symboltable.Tab;
 import rs.etf.pp1.symboltable.concepts.Obj;
 import rs.etf.pp1.symboltable.concepts.Scope;
@@ -58,12 +56,20 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 	public class TypeHelper{
 		public Struct type;
 		public boolean hasPredefinedValue;
+		public int predefinedValue = Integer.MIN_VALUE;
 		public boolean wildcard;
 		
 		public TypeHelper(Struct s, boolean b, boolean c) {
 			type = s;
 			hasPredefinedValue = b;
 			wildcard = c;
+		}
+		
+		public TypeHelper(Struct s, boolean b, boolean c, int ss) {
+			type = s;
+			hasPredefinedValue = b;
+			wildcard = c;
+			predefinedValue = ss;
 		}
 		
 		@Override
@@ -73,11 +79,11 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 		
 	}
 	
-	ArrayList<MethodHelper> methods = new ArrayList<>();
+	static ArrayList<MethodHelper> methods = new ArrayList<>();
 	MethodHelper currentMethodHelper = null;
 	int currentMethodHelperIndex = 0;
 	
-	public MethodHelper findByName(String name) {
+	public static MethodHelper findByName(String name) {
 		for(int i = 0; i < methods.size(); i++) {
 			if(methods.get(i).methodName.equals(name))
 				return methods.get(i);
@@ -85,6 +91,27 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 		return null;
 	}
 	
+	
+	public static class ArrayHelper{
+		String name;
+		boolean instantiated = false;
+		int numOfElems = 0;
+		public ArrayHelper(int n, boolean a, String name) {
+			this.name = name;
+			numOfElems = n;
+			instantiated = a;
+		}
+		
+	}
+	
+	public static ArrayList<ArrayHelper> arrays = new ArrayList<>();
+	
+	public ArrayHelper findArrayByName(String name) {
+		for(int i = 0; i < arrays.size(); i++) {
+			if(arrays.get(i).name.equals(name)) return arrays.get(i);
+		}
+		return null;
+	}
 	
 	Logger log = Logger.getLogger(getClass());
 	public boolean errorDetected = false;
@@ -156,7 +183,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 	public void visit(VarElem varElem) {
 		Obj obj = Tab.find(varElem.getVarElem());
 
-		if (obj != Tab.noObj && obj.getLevel() == 1) {
+		if ((obj != Tab.noObj && obj.getLevel() == 1) || (obj != Tab.noObj && currentMethod == null)) {
 			// error
 			report_error("postoji promenljiva", varElem);
 		} else {
@@ -166,6 +193,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 			if (isArray) {
 				Struct myStruct = new Struct(Struct.Array, currentStruct);
 				Tab.insert(Obj.Var, varElem.getVarElem(), myStruct);
+				arrays.add(new ArrayHelper(0, false, varElem.getVarElem()));
 			} else {
 				Tab.insert(Obj.Var, varElem.getVarElem(), currentStruct);
 			}
@@ -213,6 +241,22 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 				&& currMethodParNum == 0) {
 			mainDetected = true;
 		}
+		
+		// provera da li sve labele iz goto klauzule postoje
+		boolean used = false;
+		for(LabelHelper Goto: labelsDeclared) {
+			for(LabelHelper Used: labelsUsed) {
+				if(Goto.labelName.equals(Used.labelName)) {
+					used = true;
+				}
+			}
+			if(!used) {
+				report_error("Greska na liniji " + Goto.lineOfDeclaration + ", " + " labela "
+						+ Goto.labelName + " nigde nije 'deklarisana'!", null);
+			}
+		}
+		labelsUsed = new ArrayList<>();
+		labelsDeclared = new ArrayList<>();
 
 		Tab.chainLocalSymbols(currentMethod);
 		Tab.closeScope();
@@ -262,8 +306,8 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 		}
 		if(designator.getDsgOpt() instanceof DesignatorOpt && currentLeftSideDesignator != null) {
 			arrayElem = true;
-			if(designator.obj.getType().getElemType() == null) {
-				report_error("Greska, na liniji " + designator.getLine() + " se ne nalazi promenljiva tipa niza!", null);
+			if(designator.obj.getType().getElemType() == null || !findArrayByName(designator.obj.getName()).instantiated) {
+				report_error("Greska, na liniji " + designator.getLine() + " se nalazi neinicijalizovana promenljiva tipa niza!", null);
 			}
 			else {
 				//currentStruct = obj.getType().getElemType();
@@ -272,6 +316,9 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 		else {
 			if(designator.getDsgOpt() instanceof DesignatorOpt) {
 				arrayElem = true;
+				if(!findArrayByName(designator.obj.getName()).instantiated) {
+					report_error("Greska, na liniji " + designator.getLine() + " se nalazi neinicijalizovana promenljiva tipa niza!", null);
+				}
 			}
 		}
 	}
@@ -346,7 +393,13 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 			//System.out.println(currMethodParNum);
 
 			Tab.insert(Obj.Var, optArg.getT(), currentStruct);
-			types.add(currMethodParNum-1, new TypeHelper(currentStruct, true, false));
+			if(optArg.getConstType() instanceof NumConstType)
+				types.add(currMethodParNum-1, new TypeHelper(currentStruct, true, false, ((NumConstType)optArg.getConstType()).getN1()));
+			if(optArg.getConstType() instanceof CharConstType)
+				types.add(currMethodParNum-1, new TypeHelper(currentStruct, true, false, (int)((CharConstType)optArg.getConstType()).getC1().charAt(1)));
+			if(optArg.getConstType() instanceof BoolConstType)
+				types.add(currMethodParNum-1, new TypeHelper(currentStruct, true, false, ((BoolConstType)optArg.getConstType()).getB1().equals("true")?1:0));
+			
 			report_info("Deklarisana promenljiva " + optArg.getT(), optArg);
 		}
 	}
@@ -456,6 +509,8 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 			if(factor.getOptExpr() instanceof OptionalExpr) {
 				//System.out.println("ASDASD");
 				factor.struct = new Struct(Struct.Array, currentStruct);
+				ArrayHelper temp = findArrayByName(currentLeftSideDesignator.getName());
+				temp.instantiated = true;
 			}
 			else {
 				report_error("Greska na liniji " + factor.getLine() + ", sta je ovo?", null);
@@ -544,9 +599,21 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 					null);
 			constElem.struct = Tab.noType;
 		} else {
-			report_info("Deklarisana konstanta " + constElem.getI1() + " na liniji " + constElem.getLine(), null);
+			report_info("Deklarisana konstanta " + constElem.getIdent() + " na liniji " + constElem.getLine(), null);
 			constElem.struct = currentStruct;
-			Tab.insert(Obj.Con, constElem.getI1(), currentStruct);
+			Tab.insert(Obj.Con, constElem.getIdent(), currentStruct);
+			
+			Obj con = Tab.find(constElem.getIdent());
+			if(constElem.getConstType() instanceof BoolConstType)
+				con.setAdr((((BoolConstType)constElem.getConstType()).getB1().equals("true"))?1:0);
+			if(constElem.getConstType() instanceof CharConstType) {
+				char c = ((CharConstType)constElem.getConstType()).getC1().charAt(1);
+				con.setAdr((int)c);
+			}
+			if(constElem.getConstType() instanceof NumConstType) {
+				con.setAdr(((NumConstType)constElem.getConstType()).getN1());
+			}
+			//System.out.println(constElem.getIdent());
 		}
 	}
 
@@ -807,5 +874,32 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 	
 	// act pars stuff end
 	
+	// label part
+	
+	private class LabelHelper{
+		public String labelName;
+		public int lineOfDeclaration;
+		public LabelHelper(String a, int b) { labelName = a; lineOfDeclaration = b; }
+	}
+	
+	private ArrayList<LabelHelper> labelsDeclared = new ArrayList<>();
+	private ArrayList<LabelHelper> labelsUsed = new ArrayList<>();
+	
+	public void visit(SingleStmtElemGoto stmt) {
+		labelsDeclared.add(new LabelHelper(stmt.getLabel().getI1(), stmt.getLabel().getLine()));
+	}
+	
+	public void visit(SingleStatementLabel stmt) {
+		int cnt = 0;
+		for (LabelHelper lh: labelsUsed) {
+			if(lh.labelName.equals(stmt.getLabel().getI1())) {
+				cnt++; break;
+			}
+		}
+		if (cnt == 0)
+			labelsUsed.add(new LabelHelper(stmt.getLabel().getI1(), stmt.getLabel().getLine()));
+	}
+	
+	// label part 
 
 }
