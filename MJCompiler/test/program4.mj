@@ -2,6 +2,7 @@ program MJProgram
 	int x; int y; char c;
 	const int k1 = 9, k2 = 3;
 	int niz[];
+	bool uslov;
 {
 
 	int k(int k[], int c1 = 5) int c; {
@@ -10,6 +11,9 @@ program MJProgram
 	}
 
 	void main() {
+		x = 2;
+		uslov = true;
+		goto quit;
 		y = 17;
 		//print(1%5+6+3*4/12%1, 5);
 		//print(',', 4);
@@ -29,7 +33,18 @@ program MJProgram
 		//k(y);
 		print(x + y + 2, 2);
 		x = len(niz);
-		print(x);
+		quit: print(x);
+		
+		if ( x + 2 >= 6 && uslov == true || uslov == true && x == 2 && x == 3){
+			x = 1;
+			y = 5;
+		}
+		else{
+			if(uslov == true && x == 4) x = 3;
+			else x = 4;
+			if(x == 4) y = 25;
+		}
+		print(x*y);
 	}
 
 }

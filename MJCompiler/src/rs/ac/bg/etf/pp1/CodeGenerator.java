@@ -19,6 +19,12 @@ public class CodeGenerator extends VisitorAdaptor {
 	
 	private boolean minusFlag = false;
 	
+	private ArrayList<MyLabel> localLabelsGoto = null;
+	private ArrayList<MyLabel> localLabelsDest = null;
+	
+	private ArrayList<ElseThenAdrHelper> ifElseAdrHelper = new ArrayList<>();
+	private int ifElseIndex = -1;
+	
 	public int getMainPc() {
 		return mainPc;
 	}
@@ -158,6 +164,10 @@ public class CodeGenerator extends VisitorAdaptor {
 		}
 		methodTypeName.obj.setAdr(Code.pc);
 		
+		// initializing an array of labels in this method
+		localLabelsGoto = new ArrayList<>();
+		localLabelsDest = new ArrayList<>();
+		
 		// Collect arguments and local variables
 		SyntaxNode methodNode = methodTypeName.getParent();
 		
@@ -174,6 +184,24 @@ public class CodeGenerator extends VisitorAdaptor {
 	}
 	
 	public void visit(MethodDecl methodDecl) {
+		
+		//System.out.println(localLabelsGoto);
+		//System.out.println(localLabelsDest);
+		
+		// patching goto & destination label adresses
+		for(MyLabel gotoLabel: localLabelsGoto) {
+			for(MyLabel destLabel: localLabelsDest) {
+				if (gotoLabel.getName().equals(destLabel.getName())) { // patch address for goto command
+					int oldPc = Code.pc;
+
+					Code.pc = destLabel.getAdr();
+					Code.fixup(gotoLabel.getAdr());
+					
+					Code.pc = oldPc;
+				}
+			}
+		}
+		// patching goto & destination label adresses
 		
 		Code.put(Code.exit);
 		Code.put(Code.return_);
@@ -353,6 +381,228 @@ public class CodeGenerator extends VisitorAdaptor {
 		minusFlag = true;
 	}
 	
+	// label handling
+	
+	public void visit(SingleStmtElemGoto gotoStmt) {
+		localLabelsGoto.add(new MyLabel(gotoStmt.getLabel().getI1(), Code.pc+1));
+		Code.putJump(0);
+	}
+	
+	public void visit(LabelStmt labelStmt) {
+		localLabelsDest.add(new MyLabel(labelStmt.getLabel().getI1(), Code.pc));
+	}
+	
+	// label handling
+	
+	
+	// if-else handling
+	
+	
+	/*public void visit(SingleCondFact SingleCondFact) {// boolean, single
+		//Code.loadConst(1);
+		//System.out.println("WORKING MANN");
+		
+		if(SingleCondFact.getParent() instanceof SingleCondTermFact) {
+			if(((SingleCondTermFact)SingleCondFact.getParent()).getParent() instanceof MultipleCondTermFacts) { // nije poslednji uslov od &&
+				if(((MultipleCondTermFacts)((SingleCondTermFact)SingleCondFact.getParent()).getParent()).getParent() instanceof SingleCondition) {
+					
+				}
+				Code.putFalseJump(Code.eq, 0);
+				patchToNextOR.add(Code.pc-2);
+			}
+			else {
+				//System.out.println("WORKING BOII");
+				if(((SingleCondTermFact)SingleCondFact.getParent()).getParent() instanceof SingleCondition
+				|| ((SingleCondTermFact)SingleCondFact.getParent()).getParent() instanceof MultipleCondition) { // jeste poslednji od &&
+					
+					if(((SingleCondTermFact)SingleCondFact.getParent()).getParent() instanceof SingleCondition) { // potencijalno jedini uslov u zagradi
+						if(!(((SingleCondition)((SingleCondTermFact)SingleCondFact.getParent()).getParent()).getParent() instanceof MultipleCondition)) { // jedini uslov u zagradi
+							Code.putFalseJump(Code.eq, 0);
+							// zapamti adresu da je kasnije razresis - skok na else
+							ifElseAdrHelper.adressesToPatchElse.add(Code.pc-2);
+						}
+						else {// nije jedini uslov u zagradi - prelazi se na || -> ako je ovaj tacan, skaci na then, u suprotnom ne radi nista 
+							System.out.println("ASDASDASDA00101");
+							Code.putFalseJump(Code.ne, 0);
+							ifElseAdrHelper.adressesToPatchThen.add(Code.pc-2);
+						}
+					}
+					else {
+						
+					}
+				}
+			}
+		}
+		else { // instanceof MultipleCondTermFacts
+			
+		}
+	}
+		
+		public void visit(DoubleCondFact DoubleCondFact) {// double
+			//Code.loadConst(1);
+			//System.out.println("WORKING MANN");
+			
+			if(DoubleCondFact.getParent() instanceof SingleCondTermFact) { // a>b && c<d || e == true || f*g>h - ovo je 
+				if(((SingleCondTermFact)DoubleCondFact.getParent()).getParent() instanceof MultipleCondTermFacts) { // a>b && c<d || e == true || f*g>h - ovo je: a>b && c<d, tacnije a>b
+					if(false) {// ako naredno || postoji
+						Code.putFalseJump(this.getMyOp(DoubleCondFact.getRelop()), 0);
+						patchToNextOR.add(Code.pc-2);
+					}
+					else { // ako naredno || NE postoji
+						Code.putFalseJump(this.getMyOp(DoubleCondFact.getRelop()), 0);
+						ifElseAdrHelper.adressesToPatchThen.add(Code.pc-2);
+					}
+				}
+				else {
+					//System.out.println("WORKING BOII");
+					if(((SingleCondTermFact)DoubleCondFact.getParent()).getParent() instanceof SingleCondition
+					|| ((SingleCondTermFact)DoubleCondFact.getParent()).getParent() instanceof MultipleCondition) { // jeste poslednji od &&
+						
+						if(((SingleCondTermFact)DoubleCondFact.getParent()).getParent() instanceof SingleCondition) { // potencijalno jedini uslov u zagradi
+							if(!(((SingleCondition)((SingleCondTermFact)DoubleCondFact.getParent()).getParent()).getParent() instanceof MultipleCondition)) { // jedan deo levo od ||
+								Code.putFalseJump(this.getMyOp(DoubleCondFact.getRelop()), 0);
+								// zapamti adresu da je kasnije razresis - skok na else
+								ifElseAdrHelper.adressesToPatchElse.add(Code.pc-2);
+							}
+							else {// nije jedini uslov u zagradi - prelazi se na || -> ako je ovaj tacan, skaci na then, u suprotnom ne radi nista 
+								System.out.println("ASDASDASDA00101");
+								Code.putFalseJump(this.getMyOp(DoubleCondFact.getRelop()), 0);
+								patchToNextOR.add(Code.pc-2);
+							}
+						}
+						else {
+							
+						}
+					}
+				}
+			}
+			else { // instanceof MultipleCondTermFacts  // a>b && c<d || e == true || f*g>h - ovo je: a>b && c<d, tacnije c<d
+				
+				if(false) { // ako naredno || postoji
+					Code.putFalseJump(this.getMyOp(DoubleCondFact.getRelop()), 0);
+					patchToNextOR.add(Code.pc-2);
+				}
+				else { // ako naredno || NE postoji
+					Code.putFalseJump(this.getMyOp(DoubleCondFact.getRelop()), 0);
+					ifElseAdrHelper.adressesToPatchThen.add(Code.pc-2);
+				}
+				//cnt++;
+				System.out.println("LALA 1");
+			}
+		
+	}*/
+		
+	public int getMyOp(Relop relOp) {
+		if (relOp instanceof RelopBigger) return Code.gt;
+		if (relOp instanceof RelopBiggerEqual) return Code.ge;
+		if (relOp instanceof RelopSmaller) return Code.lt;
+		if (relOp instanceof RelopSmallerEqual) return Code.le;
+		return 0;
+	}
+	
+	public int getMyOp(ArrayRelop relOp) {
+		if (relOp instanceof RelopDoubleEqual) return Code.eq;
+		if (relOp instanceof RelopNotEqual) return Code.ne;
+		return 0;
+	}
+	
+	public void visit(IfLparen lp) {
+		ifElseAdrHelper.add(new ElseThenAdrHelper());
+		ifElseIndex++;
+	}
+	
+	public void visit(Helper help) { // help for patching addresses once out of if-else block
+		ifElseAdrHelper.get(ifElseIndex).afterElseAdr = Code.pc;
+		if(ifElseAdrHelper.get(ifElseIndex).elseAdr == -1) ifElseAdrHelper.get(ifElseIndex).elseAdr = ifElseAdrHelper.get(ifElseIndex).afterElseAdr; // if there was no else block
+		ifElseAdrHelper.get(ifElseIndex).patchAdresses();
+		
+		if(ifElseIndex >= 0) {
+			ifElseAdrHelper.remove(ifElseIndex);
+			ifElseIndex--;
+		}
+	}
+	
+	public void visit(IfRparen rp) {
+		
+		ifElseAdrHelper.get(ifElseIndex).thenAdr = Code.pc;
+		if (patchToNextOR != null && patchToNextOR.size() > 0) {
+			for (int i = 0; i < patchToNextOR.size()-1; i++) {
+				ifElseAdrHelper.get(ifElseIndex).adressesToPatchElse.add(patchToNextOR.get(i));
+			}
+		}
+		
+		//System.out.println("Bautistaa " + Code.pc);
+		//int negOpCode = Code.buf[Code.pc-3];
+		//System.out.println("Astalavista " + negOpCode);
+		//Code.buf[Code.pc-3] = (byte)getInverse(negOpCode);
+		ifElseAdrHelper.get(ifElseIndex).adressesToPatchElse.add(Code.pc-2);
+		
+		patchToNextOR = new ArrayList<>();
+	}
+	
+	public int getInverse(int num) {
+		switch (num) {
+		 case 43:
+			 return 44;
+		 case 44:
+			 return 43;
+		 case 45:
+			 return 48;
+		 case 46:
+			 return 47;
+		 case 47:
+			 return 46;
+		 case 48:
+			 return 45;
+		}
+		return 0;
+	}
+	
+	public void visit(ElseHelp eh) {
+		Code.putJump(0);
+		ifElseAdrHelper.get(ifElseIndex).adressesToPatchAfterElse.add(Code.pc-2);
+		ifElseAdrHelper.get(ifElseIndex).elseAdr = Code.pc;
+	}
+	
+	ArrayList<Integer> patchToNextOR = new ArrayList<>();
+	int nextOrAdr = -1;
+	public void patchAdressesNextOR() {
+		for (int adr: patchToNextOR) {
+			int temp = Code.pc;
+			Code.pc = nextOrAdr;
+			Code.fixup(adr);
+			Code.pc = temp;
+		}
+	}
+	
+	private int cnt = 0;
+	public void visit(OrHelp help) {
+		
+		if (patchToNextOR != null && patchToNextOR.size()>0) {
+			nextOrAdr = Code.pc;
+			patchAdressesNextOR(); 
+		} 
+
+		
+		int negOpCode = Code.get(Code.pc-3);
+		Code.buf[Code.pc-3] = (byte)getInverse(negOpCode);
+		ifElseAdrHelper.get(ifElseIndex).adressesToPatchThen.add(Code.pc-2);
+		
+		patchToNextOR = new ArrayList<>();
+	}
+	
+	public void visit(SingleCondFact condFact) {
+		Code.loadConst(1);
+		Code.putFalseJump(Code.eq, 0);
+		patchToNextOR.add(Code.pc-2);
+	}
+	
+	public void visit(DoubleCondFact condFact) {
+		Code.putFalseJump(this.getMyOp(condFact.getRelop()), 0);
+		patchToNextOR.add(Code.pc-2);
+	}
+	
+	// if-else handling
 	
 	
 }
