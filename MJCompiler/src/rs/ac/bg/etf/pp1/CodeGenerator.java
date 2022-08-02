@@ -25,6 +25,12 @@ public class CodeGenerator extends VisitorAdaptor {
 	private ArrayList<ElseThenAdrHelper> ifElseAdrHelper = new ArrayList<>();
 	private int ifElseIndex = -1;
 	
+	private ArrayList<DoWhileAdrHelper> doWhileAdrHelper = new ArrayList<>();
+	private int doWhileIndex = -1;
+	
+	private ArrayList<String> IfElse_or_DoWhile = new ArrayList<>();
+	private int condIndex = -1;
+	
 	public int getMainPc() {
 		return mainPc;
 	}
@@ -509,6 +515,8 @@ public class CodeGenerator extends VisitorAdaptor {
 	public void visit(IfLparen lp) {
 		ifElseAdrHelper.add(new ElseThenAdrHelper());
 		ifElseIndex++;
+		IfElse_or_DoWhile.add("IfElse");
+		condIndex++;
 	}
 	
 	public void visit(Helper help) { // help for patching addresses once out of if-else block
@@ -538,6 +546,10 @@ public class CodeGenerator extends VisitorAdaptor {
 		ifElseAdrHelper.get(ifElseIndex).adressesToPatchElse.add(Code.pc-2);
 		
 		patchToNextOR = new ArrayList<>();
+		if(condIndex >= 0) {
+			IfElse_or_DoWhile.remove(condIndex);
+			condIndex--;
+		}
 	}
 	
 	public int getInverse(int num) {
@@ -586,7 +598,11 @@ public class CodeGenerator extends VisitorAdaptor {
 		
 		int negOpCode = Code.get(Code.pc-3);
 		Code.buf[Code.pc-3] = (byte)getInverse(negOpCode);
-		ifElseAdrHelper.get(ifElseIndex).adressesToPatchThen.add(Code.pc-2);
+		
+		if (IfElse_or_DoWhile.get(condIndex).equals("IfElse"))
+			ifElseAdrHelper.get(ifElseIndex).adressesToPatchThen.add(Code.pc-2);
+		if (IfElse_or_DoWhile.get(condIndex).equals("DoWhile"))
+			doWhileAdrHelper.get(doWhileIndex).adressesToPatchBeginning.add(Code.pc-2);
 		
 		patchToNextOR = new ArrayList<>();
 	}
@@ -603,6 +619,45 @@ public class CodeGenerator extends VisitorAdaptor {
 	}
 	
 	// if-else handling
+	
+	
+	// do-while handling
+	
+	public void visit(DoWhileBegin dwb) {
+		doWhileAdrHelper.add(new DoWhileAdrHelper());
+		doWhileIndex++;
+		doWhileAdrHelper.get(doWhileIndex).beginningAdr = Code.pc;
+		IfElse_or_DoWhile.add("DoWhile");
+		condIndex++;
+	}
+	
+	public void visit(DoWhileRparen dwr) {
+		
+		if (patchToNextOR != null && patchToNextOR.size() > 0) {
+			for (int i = 0; i < patchToNextOR.size()-1; i++) {
+				doWhileAdrHelper.get(doWhileIndex).adressesToPatchAfterWhile.add(patchToNextOR.get(i));
+			}
+		}
+		Code.buf[Code.pc-3] = (byte)getInverse(Code.buf[Code.pc-3]);
+		doWhileAdrHelper.get(doWhileIndex).adressesToPatchBeginning.add(Code.pc-2);
+		
+		patchToNextOR = new ArrayList<>();
+		doWhileAdrHelper.get(doWhileIndex).afterWhileAdr = Code.pc;
+		doWhileAdrHelper.get(doWhileIndex).patchAdresses();
+		
+		
+		if(doWhileIndex >= 0) {
+			doWhileAdrHelper.remove(doWhileIndex);
+			doWhileIndex--;
+		}
+		if(condIndex >= 0) {
+			IfElse_or_DoWhile.remove(condIndex);
+			condIndex--;
+		}
+		
+	}
+	
+	// do-while handling
 	
 	
 }
