@@ -75,7 +75,8 @@ nonterminal FactorOptActPars;
 nonterminal Relop;
 nonterminal VarArgs, ParsArgsWrapper;
 nonterminal OptArgs, OptArgsArray, OptArgsElem;
-nonterminal DoWhileBegin, ArrayRelop, OptMinus;
+nonterminal DoWhileBegin, ArrayRelop, OptMinus, LabelStmt;
+nonterminal IfLparen, IfRparen, Helper, ElseHelp, OrHelp;
 
 nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgName, Program;
 nonterminal rs.etf.pp1.symboltable.concepts.Obj MethodDecl, MethodTypeName, Designator;
@@ -113,12 +114,14 @@ OptArgsElem		::= (OptArgsElem) Type IDENT:t EQUAL ConstType;
 StatementList	::= (ListOfStatements) StatementList SingleStatement
 				|	(NoStatementList) ;
 				
-SingleStatement	::=	(SingleStatementLabel) Label COLON SingleStatementElem
+SingleStatement	::=	(SingleStatementLabel) LabelStmt COLON SingleStatementElem
 				|	(SingleStatementnoLabel) SingleStatementElem;
+				
+LabelStmt		::= (LabelStmt) Label;
 
 SingleStatementElem		::=	(SingleStmtElemDsgStmt) DesignatorStatement SEMI
-						|	(SingleStmtElemIfElse) IF LPAREN Condition RPAREN SingleStatement ELSE SingleStatement
-						|	(SingleStmtElemIf) IF LPAREN Condition RPAREN SingleStatement
+						|	(SingleStmtElemIfElse) IF IfLparen Condition IfRparen SingleStatement ElseHelp SingleStatement Helper
+						|	(SingleStmtElemIf) IF IfLparen Condition IfRparen SingleStatement Helper
 						|	(SingleStmtElemDo) DoWhileBegin SingleStatement WHILE LPAREN Condition RPAREN SEMI
 						|	(SingleStmtElemBreak) BREAK SEMI
 						|	(SingleStmtElemContinue) CONTINUE SEMI
@@ -129,8 +132,16 @@ SingleStatementElem		::=	(SingleStmtElemDsgStmt) DesignatorStatement SEMI
 						|	(SingleStmtElemNewStmt) LBRACE StatementList RBRACE;
 		
 DoWhileBegin	::=	(DoWhileBegin) DO;
+
+IfLparen	::= (IfLparen) LPAREN;
+
+IfRparen	::= (IfRparen) RPAREN;
+
+ElseHelp	::= (ElseHelp) ELSE;
+
+Helper		::= (Helper);
 				
-Condition		::=	(MultipleCondition) Condition OROR CondTerm
+Condition		::=	(MultipleCondition) Condition OrHelp CondTerm
 				|	(SingleCondition) CondTerm;
 				
 CondTerm		::= (MultipleCondTermFacts) CondTerm ANDAND CondFact
@@ -138,6 +149,8 @@ CondTerm		::= (MultipleCondTermFacts) CondTerm ANDAND CondFact
 				
 CondFact		::= (DoubleCondFact) Expr:e1 Relop Expr:e2
 				|	(SingleCondFact) Expr;
+				
+OrHelp			::= (OrHelp) OROR;
 
 DesignatorStatement		::=	(DesignatorStatement) Designator:dest DsgArray;
 

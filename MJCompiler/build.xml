@@ -11,6 +11,8 @@
 				<exclude name="SemanticAnalyzer.java"/>
 				<exclude name="CodeGenerator.java"/>
 				<exclude name="CounterVisitor.java"/>
+				<exclude name="MyLabel.java"/>
+				<exclude name="ElseThenAdrHelper.java"/>
 			</fileset>
 		</delete>
 		<delete>

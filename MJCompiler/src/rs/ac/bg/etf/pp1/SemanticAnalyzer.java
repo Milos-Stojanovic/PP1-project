@@ -762,6 +762,9 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 
 	public void visit(SingleCondFact singleF) {
 		singleF.struct = singleF.getExpr().struct;
+		if(singleF.struct != boolStruct) {
+			singleF.struct = Tab.noType;
+		}
 	}
 	
 	public void visit(DoubleCondFact doubleF) {
@@ -902,12 +905,14 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 	public void visit(SingleStatementLabel stmt) {
 		int cnt = 0;
 		for (LabelHelper lh: labelsUsed) {
-			if(lh.labelName.equals(stmt.getLabel().getI1())) {
+			if(lh.labelName.equals(stmt.getLabelStmt().getLabel().getI1())) {
 				cnt++; break;
 			}
 		}
 		if (cnt == 0)
-			labelsUsed.add(new LabelHelper(stmt.getLabel().getI1(), stmt.getLabel().getLine()));
+			labelsUsed.add(new LabelHelper(stmt.getLabelStmt().getLabel().getI1(), stmt.getLabelStmt().getLabel().getLine()));
+		else if (cnt >= 1)
+			report_error("Greska, labela '"+stmt.getLabelStmt().getLabel().getI1()+"' je vec iskoriscena", null);
 	}
 	
 	// label part 
