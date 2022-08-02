@@ -44,6 +44,15 @@ program MJProgram
 			else x = 4;
 			if(x == 4) y = 25;
 		}
+		
+		y = 5;
+		x = 2;
+		do{
+			y++;
+			if (y == 10) x = 15;
+			x++;
+		}while (y < 11 && uslov || x < 10 || uslov == false);
+		
 		print(x*y);
 	}
 

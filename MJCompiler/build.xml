@@ -13,6 +13,7 @@
 				<exclude name="CounterVisitor.java"/>
 				<exclude name="MyLabel.java"/>
 				<exclude name="ElseThenAdrHelper.java"/>
+				<exclude name="DoWhileAdrHelper.java"/>
 			</fileset>
 		</delete>
 		<delete>
