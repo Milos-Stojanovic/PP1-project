@@ -11,7 +11,7 @@ const int b = 0;
 	i = 0;
 	j = 0;
 	
-	if(i == 0 && flag && 2){
+	if(i == 0 && flag){
 		i++;
 		if(i == 0){
 		
