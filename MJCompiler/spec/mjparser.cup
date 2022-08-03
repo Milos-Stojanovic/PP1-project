@@ -147,7 +147,8 @@ ElseHelp	::= (ElseHelp) ELSE;
 Helper		::= (Helper);
 				
 Condition		::=	(MultipleCondition) Condition OrHelp CondTerm
-				|	(SingleCondition) CondTerm;
+				|	(SingleCondition) CondTerm
+				| (ConditionError) error:l {: parser.report_error("Recovered ConditionError ) at line " + lleft, null);  :};
 				
 CondTerm		::= (MultipleCondTermFacts) CondTerm ANDAND CondFact
 				|	(SingleCondTermFact) CondFact;
@@ -159,7 +160,8 @@ OrHelp			::= (OrHelp) OROR;
 
 DesignatorStatement		::=	(DesignatorStatement) Designator:dest DsgArray;
 
-DsgArray		::=	(DsgArrayAE) Assignop Expr
+DsgArray		::=	(DesignatorError)  error:l {: parser.report_error("Recovered DesignatorError from error to ; at line " + lleft, null);  :}
+				|	(DsgArrayAE) Assignop Expr
 				|	(DsgArrayActPars) LPAREN OptActPars RPAREN
 				|	(DsgArrayInc) INCREMENT
 				|	(DsgArrayDec) DECREMENT;
@@ -223,6 +225,7 @@ ActPars			::= (MoreActPars) ActPars COMMA Expr
 				|	(SingleActPars) Expr;
 
 FormPars		::= (ListFormPars) FormParsElem FormParsArray
+ 				| (FormParsError) error:l {: parser.report_error("Recovered formPars from error to , or ) at line " + lleft, null);  :}
 				|	(NoFormPars) ;
 				
 FormParsArray	::= (ArrayOfFormPars) FormParsArray COMMA FormParsElem
@@ -237,6 +240,8 @@ DeclList		::= (DeclListRec) DeclList SingleDecl
 				|	(NoDeclList) ;
 				
 SingleDecl		::= (SingleVar) VarDecl
+				| (VarDeclarationError) error:l
+					{: parser.report_error("Recovered VarDeclaration from error to , ; or { at line " + lleft, null);  :}
 				|	(SingleConst) ConstDecl;
 
 VarDeclList		::= (ListVarDecl) VarDeclList VarDecl
