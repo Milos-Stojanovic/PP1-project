@@ -77,7 +77,7 @@ nonterminal VarArgs, ParsArgsWrapper;
 nonterminal OptArgs, OptArgsArray, OptArgsElem;
 nonterminal DoWhileBegin, ArrayRelop, OptMinus, LabelStmt;
 nonterminal IfLparen, IfRparen, Helper, ElseHelp, OrHelp;
-nonterminal DoWhileRparen;
+nonterminal DoWhileRparen, DoWhileLparen;
 
 nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgName, Program;
 nonterminal rs.etf.pp1.symboltable.concepts.Obj MethodDecl, MethodTypeName, Designator;
@@ -123,7 +123,7 @@ LabelStmt		::= (LabelStmt) Label;
 SingleStatementElem		::=	(SingleStmtElemDsgStmt) DesignatorStatement SEMI
 						|	(SingleStmtElemIfElse) IF IfLparen Condition IfRparen SingleStatement ElseHelp SingleStatement Helper
 						|	(SingleStmtElemIf) IF IfLparen Condition IfRparen SingleStatement Helper
-						|	(SingleStmtElemDo) DoWhileBegin SingleStatement WHILE LPAREN Condition DoWhileRparen SEMI
+						|	(SingleStmtElemDo) DoWhileBegin SingleStatement WHILE DoWhileLparen Condition DoWhileRparen SEMI
 						|	(SingleStmtElemBreak) BREAK SEMI
 						|	(SingleStmtElemContinue) CONTINUE SEMI
 						|	(SingleStmtElemReturn) RETURN ExprOpt:optRet SEMI
@@ -135,6 +135,8 @@ SingleStatementElem		::=	(SingleStmtElemDsgStmt) DesignatorStatement SEMI
 DoWhileBegin	::=	(DoWhileBegin) DO;
 
 DoWhileRparen	::= (DoWhileRparen) RPAREN;
+
+DoWhileLparen	::= (DoWhileLparen) LPAREN;
 
 IfLparen	::= (IfLparen) LPAREN;
 

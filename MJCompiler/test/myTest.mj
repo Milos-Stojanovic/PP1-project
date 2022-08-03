@@ -1,0 +1,43 @@
+program myTest
+
+int NUM;
+bool flag;
+
+{
+
+	void main() int i; int curr; int val; int index;
+	{
+		i = 0;
+		flag = false;
+	
+		do{
+			read(NUM);
+			curr = 1;
+			index = 1;
+			
+			do{
+				curr = curr * (index + 1);
+				index++;
+				
+			}while( index < NUM);
+			
+			print(curr);
+			print(eol);
+			i++;
+			if(i == 9) flag = true;
+		
+		} while ( i<10 && flag == false);
+		
+		print(eol);
+		print('B');
+		print('y');
+		print('e');
+		print(' ');
+		print('b');
+		print('y');
+		print('e');
+		print('!');
+	
+	}
+
+}

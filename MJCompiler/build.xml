@@ -78,11 +78,12 @@
 	</target>
 
 	<target name="runObj" depends="disasm">
-		<java classname="rs.etf.pp1.mj.runtime.Run">
+		<java classname="rs.etf.pp1.mj.runtime.Run"  input="test/input.txt">
 			<arg value="test/program.obj"/>
 			<classpath>
 				<pathelement location="lib/mj-runtime-1.1.jar"/>
 			</classpath>
+			<!--<arg value="-debug"/> -->
 		</java>
 	</target>
 
