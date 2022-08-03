@@ -294,12 +294,12 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 		}
 		designator.obj = obj;
 		
-		if (obj == Tab.noObj) {
-			//currentStruct = Tab.noType;
-		}
-		else {
-			//currentStruct = obj.getType();
-		}
+//		if (obj == Tab.noObj) {
+//			//currentStruct = Tab.noType;
+//		}
+//		else {
+//			//currentStruct = obj.getType();
+//		}
 		currentDesignator = obj;
 		if (obj.getKind() == Obj.Meth) {
 			currentMethodDesignator = obj;
@@ -520,7 +520,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 	}
 
 	public void visit(FactorExpr factor) {
-		// postavlja tip strukture u visit(Type)
+		factor.struct = factor.getExpr().struct;
 	}
 
 	public void visit(FactorMinus fm) {
@@ -542,9 +542,9 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 
 	public void visit(MultipleFactor multiFactor) {
 		Struct t = multiFactor.getTerm().struct;
-		// System.out.println(t);
+		 System.out.println(t);
 		Struct f = multiFactor.getFactorUn().struct;
-		// System.out.println(f);
+		 System.out.println(f);
 		if (t.equals(f) && t == Tab.intType) {
 			multiFactor.struct = t;
 		} else {
@@ -570,7 +570,11 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 	public void visit(MultipleTerm multiTerm) {
 		Struct te = multiTerm.getTermArray().struct;
 		Struct t = multiTerm.getTerm().struct;
-		//System.out.println(te.getKind()+", "+ t.getKind());
+		if(te != null && t != null)System.out.println(te.getKind()+", "+ t.getKind());
+		else {
+			System.out.println(te);
+			System.out.println(t);
+		}
 		if (te.equals(t) && te == Tab.intType) {
 			multiTerm.struct = te;
 		} else {
@@ -645,7 +649,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 		if (!(obj.getKind() == Obj.Var)) {
 			report_error("Greska, na liniji " + inc.getLine() + " se ne nalazi promenljiva/element niza!", inc);
 		}
-		if (obj.getType() != Tab.intType) {
+		if (obj.getType() != Tab.intType && !(obj.getType().getElemType() != null && obj.getType().getElemType() == Tab.intType)) {
 			report_error(
 					"Greska na liniji " + inc.getLine() + " : promenljiva cija se vrednost inkrementira nije tipa int.",
 					null);
@@ -657,7 +661,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 		if (!(obj.getKind() == Obj.Var)) {
 			report_error("Greska, na liniji " + dec.getLine() + " se ne nalazi promenljiva/element niza!", dec);
 		}
-		if (obj.getType() != Tab.intType) {
+		if (obj.getType() != Tab.intType && !(obj.getType().getElemType() != null && obj.getType().getElemType() == Tab.intType)) {
 			report_error(
 					"Greska na liniji " + dec.getLine() + " : promenljiva cija se vrednost dekrementira nije tipa int.",
 					null);

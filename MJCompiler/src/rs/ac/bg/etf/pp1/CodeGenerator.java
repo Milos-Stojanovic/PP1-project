@@ -17,8 +17,6 @@ public class CodeGenerator extends VisitorAdaptor {
 
 	private int mainPc;
 	
-	private boolean minusFlag = false;
-	
 	private ArrayList<MyLabel> localLabelsGoto = null;
 	private ArrayList<MyLabel> localLabelsDest = null;
 	
@@ -137,11 +135,6 @@ public class CodeGenerator extends VisitorAdaptor {
 		con.setLevel(1);
 		System.out.println(con.getAdr());
 		con.setAdr(factorNum.getN1());
-		
-		if(minusFlag) {
-			con.setAdr(-factorNum.getN1());
-			minusFlag = false;
-		}
 		
 		Code.load(con);
 	}
@@ -311,17 +304,41 @@ public class CodeGenerator extends VisitorAdaptor {
 		}
 		if(dsgStmt.getDsgArray() instanceof DsgArrayInc) { // DONE
 			Obj dsg = dsgStmt.getDesignator().obj;
-			Code.load(dsg);
-			Code.loadConst(1);
-			Code.put(Code.add);
-			Code.store(dsg);
+			if(dsg.getType().getKind() != 3) {
+				Code.load(dsg);
+				Code.loadConst(1);
+				Code.put(Code.add);
+				Code.store(dsg);
+			}
+			else {
+				Code.load(dsg);
+				Code.put(Code.dup_x1);
+				Code.put(Code.pop);
+				Code.put(Code.dup2);
+				Code.put(Code.aload);
+				Code.put(Code.const_1);
+				Code.put(Code.add);
+				Code.put(Code.astore);
+			}
 		}
 		if(dsgStmt.getDsgArray() instanceof DsgArrayDec) { // DONE
 			Obj dsg = dsgStmt.getDesignator().obj;
-			Code.load(dsg);
-			Code.loadConst(1);
-			Code.put(Code.sub);
-			Code.store(dsg);
+			if(dsg.getType().getKind() != 3) {
+				Code.load(dsg);
+				Code.loadConst(1);
+				Code.put(Code.sub);
+				Code.store(dsg);
+			}
+			else {
+				Code.load(dsg);
+				Code.put(Code.dup_x1);
+				Code.put(Code.pop);
+				Code.put(Code.dup2);
+				Code.put(Code.aload);
+				Code.put(Code.const_1);
+				Code.put(Code.sub);
+				Code.put(Code.astore);
+			}
 		}
 		
 	}
@@ -374,18 +391,34 @@ public class CodeGenerator extends VisitorAdaptor {
 	}
 	
 	public void visit(SingleStmtElemRead StatementRead) {
-		if (StatementRead.getDesignator().obj.getType() == Tab.intType) {
-	        Code.put(Code.read);
+		if (StatementRead.getDesignator().obj.getType() == Tab.charType) {
+	        Code.put(Code.bread);
+	        Code.store(StatementRead.getDesignator().obj);
 		}
 		else {
-        	Code.put(Code.bread);
+			if(StatementRead.getDesignator().obj.getType().getKind() != 3) {
+				Code.put(Code.read);
+				Code.store(StatementRead.getDesignator().obj);
+			}
+			else {
+				if(StatementRead.getDesignator().obj.getType().getElemType() == Tab.charType) {
+					Code.load(StatementRead.getDesignator().obj);
+					Code.put(Code.dup_x1);
+					Code.put(Code.pop);
+					Code.put(Code.bread);
+					Code.put(Code.bastore);
+				}
+				else {
+					Code.load(StatementRead.getDesignator().obj);
+					Code.put(Code.dup_x1);
+					Code.put(Code.pop);
+					Code.put(Code.read);
+					Code.put(Code.astore);
+				}
+			}
         }
-		Code.store(StatementRead.getDesignator().obj);
     }
 	
-	public void visit(OptMinus optMinus) {
-		minusFlag = true;
-	}
 	
 	// label handling
 	
@@ -503,6 +536,10 @@ public class CodeGenerator extends VisitorAdaptor {
 		if (relOp instanceof RelopBiggerEqual) return Code.ge;
 		if (relOp instanceof RelopSmaller) return Code.lt;
 		if (relOp instanceof RelopSmallerEqual) return Code.le;
+		if (relOp instanceof ArrayRelop1) {
+			if (((ArrayRelop1)relOp).getArrayRelop() instanceof RelopDoubleEqual) return Code.eq;
+			else return Code.ne;
+		}
 		return 0;
 	}
 	
@@ -534,16 +571,13 @@ public class CodeGenerator extends VisitorAdaptor {
 		
 		ifElseAdrHelper.get(ifElseIndex).thenAdr = Code.pc;
 		if (patchToNextOR != null && patchToNextOR.size() > 0) {
-			for (int i = 0; i < patchToNextOR.size()-1; i++) {
+			for (int i = 0; i < patchToNextOR.size(); i++) {
 				ifElseAdrHelper.get(ifElseIndex).adressesToPatchElse.add(patchToNextOR.get(i));
 			}
 		}
 		
-		//System.out.println("Bautistaa " + Code.pc);
-		//int negOpCode = Code.buf[Code.pc-3];
-		//System.out.println("Astalavista " + negOpCode);
-		//Code.buf[Code.pc-3] = (byte)getInverse(negOpCode);
-		ifElseAdrHelper.get(ifElseIndex).adressesToPatchElse.add(Code.pc-2);
+		//ifElseAdrHelper.get(ifElseIndex).adressesToPatchElse.add(Code.pc-2);
+		
 		
 		patchToNextOR = new ArrayList<>();
 		if(condIndex >= 0) {
@@ -615,6 +649,7 @@ public class CodeGenerator extends VisitorAdaptor {
 	
 	public void visit(DoubleCondFact condFact) {
 		Code.putFalseJump(this.getMyOp(condFact.getRelop()), 0);
+		
 		patchToNextOR.add(Code.pc-2);
 	}
 	
@@ -624,22 +659,30 @@ public class CodeGenerator extends VisitorAdaptor {
 	// do-while handling
 	
 	public void visit(DoWhileBegin dwb) {
+		Code.put(Code.jmp);
+		Code.put2(0);
 		doWhileAdrHelper.add(new DoWhileAdrHelper());
 		doWhileIndex++;
 		doWhileAdrHelper.get(doWhileIndex).beginningAdr = Code.pc;
+		doWhileAdrHelper.get(doWhileIndex).patchJmpToCondition = Code.pc-2;
 		IfElse_or_DoWhile.add("DoWhile");
 		condIndex++;
 	}
 	
+	public void visit(DoWhileLparen dwl) {
+		doWhileAdrHelper.get(doWhileIndex).conditionAdr = Code.pc;
+	}
+	
 	public void visit(DoWhileRparen dwr) {
 		
-		if (patchToNextOR != null && patchToNextOR.size() > 0) {
+		if (patchToNextOR != null && patchToNextOR.size()-1 > 0) {
 			for (int i = 0; i < patchToNextOR.size()-1; i++) {
 				doWhileAdrHelper.get(doWhileIndex).adressesToPatchAfterWhile.add(patchToNextOR.get(i));
 			}
 		}
 		Code.buf[Code.pc-3] = (byte)getInverse(Code.buf[Code.pc-3]);
 		doWhileAdrHelper.get(doWhileIndex).adressesToPatchBeginning.add(Code.pc-2);
+		
 		
 		patchToNextOR = new ArrayList<>();
 		doWhileAdrHelper.get(doWhileIndex).afterWhileAdr = Code.pc;
@@ -657,7 +700,24 @@ public class CodeGenerator extends VisitorAdaptor {
 		
 	}
 	
+	public void visit(SingleStmtElemBreak breakStmt) {
+		Code.put(Code.jmp);
+		Code.put2(0);
+		doWhileAdrHelper.get(doWhileIndex).adressesToPatchAfterWhile.add(Code.pc-2);
+	}
+	
+	public void visit(SingleStmtElemContinue continueStmt) {
+		Code.put(Code.jmp);
+		Code.put2(0);
+		doWhileAdrHelper.get(doWhileIndex).adressesToPatchBeginning.add(Code.pc-2);
+	}
+	
 	// do-while handling
+	
+	public void visit(FactorMinus fm) {
+		Code.loadConst(-1);
+		Code.put(Code.mul);
+	}
 	
 	
 }
