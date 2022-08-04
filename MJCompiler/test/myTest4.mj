@@ -1,0 +1,52 @@
+program myTest2
+
+const bool flag = true;
+const char a = 'a';
+const int b = 0;
+{
+
+	int blabla(){
+	
+		return 5 * 17;
+	}
+	
+	void printGoodbye(){
+		print(eol);
+		print('G');	print('o');	print('o');	print('d');
+		print(' ');
+		print('b');	print('y');	print('e');	print('!');
+		print(eol);
+	}
+
+	void main() int i; int j; int temp;
+	{
+	
+	i = 0;
+	j = 0;
+	
+	if(i == 0 && flag){
+		i++;
+		if(i == 0){
+		
+		}
+		else{
+			if (i == 1)
+				if(flag == false){}
+				else
+					if (i == 1)
+						do{
+							j = 0;
+							do{
+								i++;
+								j++;
+								temp = blabla();
+								print(temp);
+							} while (j < 10);
+							printGoodbye();
+						}while(i < 2);
+		}
+	} 
+	print(i);
+	}
+
+}
