@@ -133,7 +133,7 @@ public class CodeGenerator extends VisitorAdaptor {
 	public void visit(FactorNum factorNum) { // const deo od Expr
 		Obj con = Tab.insert(Obj.Con, "$", factorNum.struct);
 		con.setLevel(1);
-		System.out.println(con.getAdr());
+		//System.out.println(con.getAdr());
 		con.setAdr(factorNum.getN1());
 		
 		Code.load(con);
@@ -256,7 +256,7 @@ public class CodeGenerator extends VisitorAdaptor {
 			else {
 				Obj dsg = dsgStmt.getDesignator().obj;
 				// provera da li je levo od = element niza ili nije
-				System.out.println("ASDASDASDA  "+dsg.getType().getKind());
+				//System.out.println("ASDASDASDA  "+dsg.getType().getKind());
 				if(dsg.getType().getElemType() == null || !(dsgStmt.getDesignator().getDsgOpt() instanceof DesignatorOpt)) {
 					Code.store(dsg);
 				}
@@ -300,7 +300,8 @@ public class CodeGenerator extends VisitorAdaptor {
 			Code.put(Code.call); 
 			Code.put2(-Code.pc + dsgStmt.getDesignator().obj.getAdr()+1);
 					
-			Code.put(Code.pop);
+			if (mh.retType != Tab.noType)
+				Code.put(Code.pop);
 		}
 		if(dsgStmt.getDsgArray() instanceof DsgArrayInc) { // DONE
 			Obj dsg = dsgStmt.getDesignator().obj;

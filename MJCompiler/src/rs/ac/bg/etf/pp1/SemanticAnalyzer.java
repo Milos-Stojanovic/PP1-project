@@ -37,11 +37,13 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 	
 	public class MethodHelper{
 		public String methodName;
+		public Struct retType;
 		public int numOfArgs;
 		public ArrayList<TypeHelper> types;
 		public boolean lastPasIsWildcard = false;
 		
-		public MethodHelper(String a, int b) {
+		public MethodHelper(String a, int b, Struct retType) {
+			this.retType = retType;
 			methodName = a;
 			numOfArgs = b;
 			types = new ArrayList<>();
@@ -122,15 +124,15 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 
 		Tab.insert(Obj.Type, "bool", boolStruct);
 		
-		currentMethodHelper = new MethodHelper("len", 1);
+		currentMethodHelper = new MethodHelper("len", 1, Tab.intType);
 		currentMethodHelper.types.add(new TypeHelper(new Struct(Struct.Array, Tab.intType), false, false));
 		methods.add(currentMethodHelper);
 		
-		currentMethodHelper = new MethodHelper("chr", 1);
+		currentMethodHelper = new MethodHelper("chr", 1, Tab.charType);
 		currentMethodHelper.types.add(new TypeHelper(Tab.intType, false, false));
 		methods.add(currentMethodHelper);
 		
-		currentMethodHelper = new MethodHelper("ord", 1);
+		currentMethodHelper = new MethodHelper("ord", 1, Tab.intType);
 		currentMethodHelper.types.add(new TypeHelper(Tab.charType, false, false));
 		methods.add(currentMethodHelper);
 		
@@ -212,7 +214,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 		Obj obj = Tab.find(methodTypeName.getMethName());
 
 		if (obj != Tab.noObj) {
-			currentMethodHelper = new MethodHelper(methodTypeName.getMethName(), 0);
+			currentMethodHelper = new MethodHelper(methodTypeName.getMethName(), 0, null);
 			//System.out.println(methodTypeName.getMethName());
 			currentMethod = obj;
 			currentMethodRetType = currentStruct;
@@ -222,7 +224,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 			report_error("postoji funkcija ", methodTypeName);
 		} else {
 			currentMethod = Tab.insert(Obj.Meth, methodTypeName.getMethName(), currentStruct);
-			currentMethodHelper = new MethodHelper(methodTypeName.getMethName(), 0);
+			currentMethodHelper = new MethodHelper(methodTypeName.getMethName(), 0, currentStruct);
 			currentMethodRetType = currentStruct;
 			methodTypeName.obj = currentMethod;
 			Tab.openScope();
@@ -266,7 +268,7 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 		//currentMethodHelper.methodName = currentMethod.getName();
 		//currentMethodHelper.numOfArgs = currMethodParNum;
 		
-		currentMethodHelper = new MethodHelper(currentMethod.getName(), currMethodParNum);
+		currentMethodHelper = new MethodHelper(currentMethod.getName(), currMethodParNum, currentMethodRetType);
 		currentMethodHelper.types = types;
 		methods.add(currentMethodHelper);
 		//System.out.println(methods);
@@ -542,9 +544,9 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 
 	public void visit(MultipleFactor multiFactor) {
 		Struct t = multiFactor.getTerm().struct;
-		 System.out.println(t);
+		 //System.out.println(t);
 		Struct f = multiFactor.getFactorUn().struct;
-		 System.out.println(f);
+		 //System.out.println(f);
 		if (t.equals(f) && t == Tab.intType) {
 			multiFactor.struct = t;
 		} else {
@@ -570,11 +572,11 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 	public void visit(MultipleTerm multiTerm) {
 		Struct te = multiTerm.getTermArray().struct;
 		Struct t = multiTerm.getTerm().struct;
-		if(te != null && t != null)System.out.println(te.getKind()+", "+ t.getKind());
-		else {
-			System.out.println(te);
-			System.out.println(t);
-		}
+		//if(te != null && t != null)System.out.println(te.getKind()+", "+ t.getKind());
+		//else {
+			//System.out.println(te);
+			//System.out.println(t);
+		//}
 		if (te.equals(t) && te == Tab.intType) {
 			multiTerm.struct = te;
 		} else {
