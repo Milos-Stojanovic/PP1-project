@@ -1,0 +1,25 @@
+program myTest
+
+const int ten = 10;
+bool flag;
+
+{
+
+	void main() int a; int b; int c; int d;
+	{
+		flag = true;
+		a = 12;
+		b = 4;
+		c = -20;
+		d = 3;
+		d++;
+		c--;
+		a = c - d;
+		b = a*a*a/d;
+		print(b % a); print(eol);
+		print(a*c - b*d + ten); print(eol);
+		print(a*b/d);
+	
+	}
+
+}

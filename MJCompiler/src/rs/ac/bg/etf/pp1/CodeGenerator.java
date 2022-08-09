@@ -239,7 +239,8 @@ public class CodeGenerator extends VisitorAdaptor {
 		if(dsgStmt.getDsgArray() instanceof DsgArrayAE) {
 			if(((DsgArrayAE)dsgStmt.getDsgArray()).getExpr().getTermArray() instanceof SingleTerm
 					&& ((SingleTerm)((DsgArrayAE)dsgStmt.getDsgArray()).getExpr().getTermArray()).getTerm() instanceof SingleFactor
-					&& ((FactorNoMinus)((SingleFactor)((SingleTerm)((DsgArrayAE)dsgStmt.getDsgArray()).getExpr().getTermArray()).getTerm()).getFactorUn()).getFactor() instanceof FactorNew) {
+					&& ((((SingleFactor)((SingleTerm)((DsgArrayAE)dsgStmt.getDsgArray()).getExpr().getTermArray()).getTerm()).getFactorUn() instanceof FactorMinus && ((FactorMinus)((SingleFactor)((SingleTerm)((DsgArrayAE)dsgStmt.getDsgArray()).getExpr().getTermArray()).getTerm()).getFactorUn()).getFactor() instanceof FactorNew)
+					|| (((SingleFactor)((SingleTerm)((DsgArrayAE)dsgStmt.getDsgArray()).getExpr().getTermArray()).getTerm()).getFactorUn() instanceof FactorNoMinus && ((FactorNoMinus)((SingleFactor)((SingleTerm)((DsgArrayAE)dsgStmt.getDsgArray()).getExpr().getTermArray()).getTerm()).getFactorUn()).getFactor() instanceof FactorNew))) {
 				
 				Obj dsg = dsgStmt.getDesignator().obj;
 				Code.put(Code.newarray);
