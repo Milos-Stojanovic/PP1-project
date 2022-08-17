@@ -22,6 +22,10 @@ public class Compiler {
         DOMConfigurator.configure(Log4JUtils.instance().findLoggerConfigFile());
         Log4JUtils.instance().prepareLogFile(Logger.getRootLogger());
     }
+    
+    public static void tsdump() {
+    	Tab.dump();
+    }
 
     public static void main(String[] args) throws Exception {
         Logger log = Logger.getLogger(Compiler.class);
@@ -63,10 +67,10 @@ public class Compiler {
 	//		log.info(" Deklarisanih promenljivih ima = " + v.varDeclCount);
 	//		
 			log.info("===================================");
-			Tab.dump();
+			tsdump(); // ispis tabele simbola
 			
 			if(!v.errorDetected && v.mainDetected){
-				File objFile = new File("test/program.obj");
+				File objFile = new File(args[1]);
 				if(objFile.exists()) {
 					objFile.delete();
 				}

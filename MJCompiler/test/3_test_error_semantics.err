@@ -1,0 +1,1265 @@
+INFO  23:37:01,443 - Compiling source file: C:\Users\stoja\git\repository\MJCompilerMain\MJCompiler\test\2_test_error_semantics.mj
+INFO  23:37:01,473 - #2 program
+INFO  23:37:01,473 - #14 Semantic_errors
+INFO  23:37:01,473 - #19 const
+INFO  23:37:01,474 - #14 char
+INFO  23:37:01,474 - #14 c
+INFO  23:37:01,474 - #8 =
+INFO  23:37:01,475 - #13 5
+INFO  23:37:01,475 - #5 ;
+INFO  23:37:01,475 - #14 int
+INFO  23:37:01,476 - #14 i
+INFO  23:37:01,476 - #11 ,
+INFO  23:37:01,477 - #14 j
+INFO  23:37:01,477 - #5 ;
+INFO  23:37:01,478 - #14 int
+INFO  23:37:01,478 - #14 x
+INFO  23:37:01,478 - #49 [
+INFO  23:37:01,478 - #50 ]
+INFO  23:37:01,478 - #5 ;
+INFO  23:37:01,479 - #14 bool
+INFO  23:37:01,479 - #14 b
+INFO  23:37:01,479 - #5 ;
+INFO  23:37:01,516 - #3 {
+INFO  23:37:01,516 - #14 int
+INFO  23:37:01,517 - #14 m2
+INFO  23:37:01,517 - #6 (
+INFO  23:37:01,518 - #14 char
+INFO  23:37:01,518 - #14 c
+INFO  23:37:01,518 - #7 )
+INFO  23:37:01,519 - #14 int
+INFO  23:37:01,519 - #14 x
+INFO  23:37:01,519 - #5 ;
+INFO  23:37:01,519 - #3 {
+INFO  23:37:01,519 - #14 x
+INFO  23:37:01,520 - #8 =
+INFO  23:37:01,520 - #14 ord
+INFO  23:37:01,521 - #6 (
+INFO  23:37:01,521 - #14 c
+INFO  23:37:01,521 - #7 )
+INFO  23:37:01,522 - #5 ;
+INFO  23:37:01,523 - #9 return
+INFO  23:37:01,523 - #14 c
+INFO  23:37:01,523 - #5 ;
+INFO  23:37:01,523 - #4 }
+INFO  23:37:01,523 - #14 bool
+INFO  23:37:01,524 - #14 m3
+INFO  23:37:01,524 - #6 (
+INFO  23:37:01,524 - #7 )
+INFO  23:37:01,525 - #3 {
+INFO  23:37:01,525 - #20 if
+INFO  23:37:01,525 - #6 (
+INFO  23:37:01,525 - #14 i
+INFO  23:37:01,525 - #39 >
+INFO  23:37:01,525 - #32 true
+INFO  23:37:01,525 - #7 )
+INFO  23:37:01,526 - #9 return
+INFO  23:37:01,526 - #32 true
+INFO  23:37:01,526 - #5 ;
+INFO  23:37:01,526 - #18 else
+INFO  23:37:01,526 - #9 return
+INFO  23:37:01,527 - #32 false
+INFO  23:37:01,527 - #5 ;
+INFO  23:37:01,527 - #4 }
+INFO  23:37:01,527 - #25 void
+INFO  23:37:01,527 - #14 main
+INFO  23:37:01,528 - #6 (
+INFO  23:37:01,528 - #7 )
+INFO  23:37:01,528 - #14 int
+INFO  23:37:01,528 - #14 x
+INFO  23:37:01,529 - #5 ;
+INFO  23:37:01,529 - #3 {
+INFO  23:37:01,529 - #14 i
+INFO  23:37:01,529 - #8 =
+INFO  23:37:01,529 - #13 0
+INFO  23:37:01,529 - #5 ;
+INFO  23:37:01,529 - #14 j
+INFO  23:37:01,529 - #8 =
+INFO  23:37:01,529 - #13 0
+INFO  23:37:01,529 - #5 ;
+INFO  23:37:01,529 - #14 x
+INFO  23:37:01,529 - #8 =
+INFO  23:37:01,529 - #13 5
+INFO  23:37:01,529 - #5 ;
+INFO  23:37:01,529 - #14 b
+INFO  23:37:01,529 - #8 =
+INFO  23:37:01,529 - #32 false
+INFO  23:37:01,529 - #5 ;
+INFO  23:37:01,529 - #20 if
+INFO  23:37:01,529 - #6 (
+INFO  23:37:01,529 - #14 x
+INFO  23:37:01,530 - #37 ==
+INFO  23:37:01,530 - #13 5
+INFO  23:37:01,530 - #7 )
+INFO  23:37:01,530 - #3 {
+INFO  23:37:01,530 - #21 do
+INFO  23:37:01,531 - #3 {
+INFO  23:37:01,531 - #20 if
+INFO  23:37:01,531 - #6 (
+INFO  23:37:01,531 - #14 i
+INFO  23:37:01,531 - #37 ==
+INFO  23:37:01,531 - #13 3
+INFO  23:37:01,531 - #7 )
+INFO  23:37:01,531 - #3 {
+INFO  23:37:01,531 - #12 print
+INFO  23:37:01,531 - #6 (
+INFO  23:37:01,531 - #13 15
+INFO  23:37:01,531 - #7 )
+INFO  23:37:01,532 - #5 ;
+INFO  23:37:01,532 - #14 b
+INFO  23:37:01,532 - #8 =
+INFO  23:37:01,532 - #32 true
+INFO  23:37:01,532 - #5 ;
+INFO  23:37:01,532 - #4 }
+INFO  23:37:01,532 - #14 i
+INFO  23:37:01,532 - #45 ++
+INFO  23:37:01,532 - #5 ;
+INFO  23:37:01,533 - #4 }
+INFO  23:37:01,533 - #22 while
+INFO  23:37:01,533 - #6 (
+INFO  23:37:01,533 - #14 i
+INFO  23:37:01,533 - #41 <
+INFO  23:37:01,533 - #14 x
+INFO  23:37:01,534 - #7 )
+INFO  23:37:01,534 - #5 ;
+INFO  23:37:01,534 - #20 if
+INFO  23:37:01,534 - #6 (
+INFO  23:37:01,534 - #14 b
+INFO  23:37:01,534 - #37 ==
+INFO  23:37:01,534 - #32 true
+INFO  23:37:01,534 - #7 )
+INFO  23:37:01,534 - #12 print
+INFO  23:37:01,534 - #6 (
+INFO  23:37:01,534 - #13 1
+INFO  23:37:01,534 - #11 ,
+INFO  23:37:01,534 - #13 5
+INFO  23:37:01,534 - #7 )
+INFO  23:37:01,535 - #5 ;
+INFO  23:37:01,535 - #18 else
+INFO  23:37:01,535 - #12 print
+INFO  23:37:01,535 - #6 (
+INFO  23:37:01,535 - #13 2
+INFO  23:37:01,535 - #7 )
+INFO  23:37:01,535 - #5 ;
+INFO  23:37:01,535 - #14 j
+INFO  23:37:01,535 - #8 =
+INFO  23:37:01,535 - #13 1
+INFO  23:37:01,535 - #5 ;
+INFO  23:37:01,535 - #4 }
+INFO  23:37:01,535 - #14 b
+INFO  23:37:01,535 - #8 =
+INFO  23:37:01,535 - #14 m2
+INFO  23:37:01,535 - #6 (
+INFO  23:37:01,535 - #7 )
+INFO  23:37:01,536 - #5 ;
+INFO  23:37:01,536 - #14 j
+INFO  23:37:01,536 - #8 =
+INFO  23:37:01,536 - #14 m3
+INFO  23:37:01,536 - #6 (
+INFO  23:37:01,536 - #14 i
+INFO  23:37:01,536 - #7 )
+INFO  23:37:01,536 - #5 ;
+INFO  23:37:01,536 - #20 if
+INFO  23:37:01,536 - #6 (
+INFO  23:37:01,536 - #14 j
+INFO  23:37:01,536 - #37 ==
+INFO  23:37:01,536 - #13 0
+INFO  23:37:01,536 - #44 ||
+INFO  23:37:01,536 - #14 b
+INFO  23:37:01,537 - #37 ==
+INFO  23:37:01,537 - #32 false
+INFO  23:37:01,537 - #7 )
+INFO  23:37:01,537 - #12 print
+INFO  23:37:01,537 - #6 (
+INFO  23:37:01,537 - #14 c
+INFO  23:37:01,537 - #7 )
+INFO  23:37:01,537 - #5 ;
+INFO  23:37:01,537 - #4 }
+INFO  23:37:01,537 - #4 }
+INFO  23:37:01,544 - Program(
+  ProgName(
+   Semantic_errors
+  ) [ProgName]
+  DeclListRec(
+    DeclListRec(
+      DeclListRec(
+        DeclListRec(
+          NoDeclList(
+          ) [NoDeclList]
+          SingleConst(
+            ConstDecl(
+              Type(
+               char
+              ) [Type]
+              ConstElem(
+               c
+                NumConstType(
+                 5
+                ) [NumConstType]
+              ) [ConstElem]
+              NoConstArray(
+              ) [NoConstArray]
+            ) [ConstDecl]
+          ) [SingleConst]
+        ) [DeclListRec]
+        SingleVar(
+          VarDecl(
+            Type(
+             int
+            ) [Type]
+            VarElem(
+             i
+              NoArray(
+              ) [NoArray]
+            ) [VarElem]
+            VarArrayRec(
+              NoVarArray(
+              ) [NoVarArray]
+              VarElem(
+               j
+                NoArray(
+                ) [NoArray]
+              ) [VarElem]
+            ) [VarArrayRec]
+          ) [VarDecl]
+        ) [SingleVar]
+      ) [DeclListRec]
+      SingleVar(
+        VarDecl(
+          Type(
+           int
+          ) [Type]
+          VarElem(
+           x
+            Array(
+            ) [Array]
+          ) [VarElem]
+          NoVarArray(
+          ) [NoVarArray]
+        ) [VarDecl]
+      ) [SingleVar]
+    ) [DeclListRec]
+    SingleVar(
+      VarDecl(
+        Type(
+         bool
+        ) [Type]
+        VarElem(
+         b
+          NoArray(
+          ) [NoArray]
+        ) [VarElem]
+        NoVarArray(
+        ) [NoVarArray]
+      ) [VarDecl]
+    ) [SingleVar]
+  ) [DeclListRec]
+  ListMethodDecl(
+    ListMethodDecl(
+      ListMethodDecl(
+        NoMethodDeclList(
+        ) [NoMethodDeclList]
+        MethodDecl(
+          MethodTypeName(
+            NonVoidTypeMethod(
+              Type(
+               int
+              ) [Type]
+            ) [NonVoidTypeMethod]
+           m2
+          ) [MethodTypeName]
+          Wrapper1(
+            ListFormPars(
+              FormParsElem(
+                Type(
+                 char
+                ) [Type]
+               c
+                NoArray(
+                ) [NoArray]
+              ) [FormParsElem]
+              NoFormParsArray(
+              ) [NoFormParsArray]
+            ) [ListFormPars]
+          ) [Wrapper1]
+          ListVarDecl(
+            NoVarDeclList(
+            ) [NoVarDeclList]
+            VarDecl(
+              Type(
+               int
+              ) [Type]
+              VarElem(
+               x
+                NoArray(
+                ) [NoArray]
+              ) [VarElem]
+              NoVarArray(
+              ) [NoVarArray]
+            ) [VarDecl]
+          ) [ListVarDecl]
+          ListOfStatements(
+            ListOfStatements(
+              NoStatementList(
+              ) [NoStatementList]
+              SingleStatementnoLabel(
+                SingleStmtElemDsgStmt(
+                  DesignatorStatement(
+                    Designator(
+                     x
+                      NoDsgOpt(
+                      ) [NoDsgOpt]
+                    ) [Designator]
+                    DsgArrayAE(
+                      Assignop(
+                      ) [Assignop]
+                      Expr(
+                        SingleTerm(
+                          SingleFactor(
+                            FactorNoMinus(
+                              FactorDesg(
+                                Designator(
+                                 ord
+                                  NoDsgOpt(
+                                  ) [NoDsgOpt]
+                                ) [Designator]
+                                OptActParsFactor(
+                                  ActParsArray(
+                                    SingleActPars(
+                                      Expr(
+                                        SingleTerm(
+                                          SingleFactor(
+                                            FactorNoMinus(
+                                              FactorDesg(
+                                                Designator(
+                                                 c
+                                                  NoDsgOpt(
+                                                  ) [NoDsgOpt]
+                                                ) [Designator]
+                                                NoFactorOptActPars(
+                                                ) [NoFactorOptActPars]
+                                              ) [FactorDesg]
+                                            ) [FactorNoMinus]
+                                          ) [SingleFactor]
+                                        ) [SingleTerm]
+                                      ) [Expr]
+                                    ) [SingleActPars]
+                                  ) [ActParsArray]
+                                ) [OptActParsFactor]
+                              ) [FactorDesg]
+                            ) [FactorNoMinus]
+                          ) [SingleFactor]
+                        ) [SingleTerm]
+                      ) [Expr]
+                    ) [DsgArrayAE]
+                  ) [DesignatorStatement]
+                ) [SingleStmtElemDsgStmt]
+              ) [SingleStatementnoLabel]
+            ) [ListOfStatements]
+            SingleStatementnoLabel(
+              SingleStmtElemReturn(
+                YesExprOpt(
+                  Expr(
+                    SingleTerm(
+                      SingleFactor(
+                        FactorNoMinus(
+                          FactorDesg(
+                            Designator(
+                             c
+                              NoDsgOpt(
+                              ) [NoDsgOpt]
+                            ) [Designator]
+                            NoFactorOptActPars(
+                            ) [NoFactorOptActPars]
+                          ) [FactorDesg]
+                        ) [FactorNoMinus]
+                      ) [SingleFactor]
+                    ) [SingleTerm]
+                  ) [Expr]
+                ) [YesExprOpt]
+              ) [SingleStmtElemReturn]
+            ) [SingleStatementnoLabel]
+          ) [ListOfStatements]
+        ) [MethodDecl]
+      ) [ListMethodDecl]
+      MethodDecl(
+        MethodTypeName(
+          NonVoidTypeMethod(
+            Type(
+             bool
+            ) [Type]
+          ) [NonVoidTypeMethod]
+         m3
+        ) [MethodTypeName]
+        Wrapper1(
+          NoFormPars(
+          ) [NoFormPars]
+        ) [Wrapper1]
+        NoVarDeclList(
+        ) [NoVarDeclList]
+        ListOfStatements(
+          NoStatementList(
+          ) [NoStatementList]
+          SingleStatementnoLabel(
+            SingleStmtElemIfElse(
+              IfLparen(
+              ) [IfLparen]
+              SingleCondition(
+                SingleCondTermFact(
+                  DoubleCondFact(
+                    Expr(
+                      SingleTerm(
+                        SingleFactor(
+                          FactorNoMinus(
+                            FactorDesg(
+                              Designator(
+                               i
+                                NoDsgOpt(
+                                ) [NoDsgOpt]
+                              ) [Designator]
+                              NoFactorOptActPars(
+                              ) [NoFactorOptActPars]
+                            ) [FactorDesg]
+                          ) [FactorNoMinus]
+                        ) [SingleFactor]
+                      ) [SingleTerm]
+                    ) [Expr]
+                    RelopBigger(
+                    ) [RelopBigger]
+                    Expr(
+                      SingleTerm(
+                        SingleFactor(
+                          FactorNoMinus(
+                            FactorBool(
+                             true
+                            ) [FactorBool]
+                          ) [FactorNoMinus]
+                        ) [SingleFactor]
+                      ) [SingleTerm]
+                    ) [Expr]
+                  ) [DoubleCondFact]
+                ) [SingleCondTermFact]
+              ) [SingleCondition]
+              IfRparen(
+              ) [IfRparen]
+              SingleStatementnoLabel(
+                SingleStmtElemReturn(
+                  YesExprOpt(
+                    Expr(
+                      SingleTerm(
+                        SingleFactor(
+                          FactorNoMinus(
+                            FactorBool(
+                             true
+                            ) [FactorBool]
+                          ) [FactorNoMinus]
+                        ) [SingleFactor]
+                      ) [SingleTerm]
+                    ) [Expr]
+                  ) [YesExprOpt]
+                ) [SingleStmtElemReturn]
+              ) [SingleStatementnoLabel]
+              ElseHelp(
+              ) [ElseHelp]
+              SingleStatementnoLabel(
+                SingleStmtElemReturn(
+                  YesExprOpt(
+                    Expr(
+                      SingleTerm(
+                        SingleFactor(
+                          FactorNoMinus(
+                            FactorBool(
+                             false
+                            ) [FactorBool]
+                          ) [FactorNoMinus]
+                        ) [SingleFactor]
+                      ) [SingleTerm]
+                    ) [Expr]
+                  ) [YesExprOpt]
+                ) [SingleStmtElemReturn]
+              ) [SingleStatementnoLabel]
+              Helper(
+              ) [Helper]
+            ) [SingleStmtElemIfElse]
+          ) [SingleStatementnoLabel]
+        ) [ListOfStatements]
+      ) [MethodDecl]
+    ) [ListMethodDecl]
+    MethodDecl(
+      MethodTypeName(
+        VoidTypeMethod(
+        ) [VoidTypeMethod]
+       main
+      ) [MethodTypeName]
+      Wrapper1(
+        NoFormPars(
+        ) [NoFormPars]
+      ) [Wrapper1]
+      ListVarDecl(
+        NoVarDeclList(
+        ) [NoVarDeclList]
+        VarDecl(
+          Type(
+           int
+          ) [Type]
+          VarElem(
+           x
+            NoArray(
+            ) [NoArray]
+          ) [VarElem]
+          NoVarArray(
+          ) [NoVarArray]
+        ) [VarDecl]
+      ) [ListVarDecl]
+      ListOfStatements(
+        ListOfStatements(
+          ListOfStatements(
+            ListOfStatements(
+              ListOfStatements(
+                ListOfStatements(
+                  ListOfStatements(
+                    ListOfStatements(
+                      NoStatementList(
+                      ) [NoStatementList]
+                      SingleStatementnoLabel(
+                        SingleStmtElemDsgStmt(
+                          DesignatorStatement(
+                            Designator(
+                             i
+                              NoDsgOpt(
+                              ) [NoDsgOpt]
+                            ) [Designator]
+                            DsgArrayAE(
+                              Assignop(
+                              ) [Assignop]
+                              Expr(
+                                SingleTerm(
+                                  SingleFactor(
+                                    FactorNoMinus(
+                                      FactorNum(
+                                       0
+                                      ) [FactorNum]
+                                    ) [FactorNoMinus]
+                                  ) [SingleFactor]
+                                ) [SingleTerm]
+                              ) [Expr]
+                            ) [DsgArrayAE]
+                          ) [DesignatorStatement]
+                        ) [SingleStmtElemDsgStmt]
+                      ) [SingleStatementnoLabel]
+                    ) [ListOfStatements]
+                    SingleStatementnoLabel(
+                      SingleStmtElemDsgStmt(
+                        DesignatorStatement(
+                          Designator(
+                           j
+                            NoDsgOpt(
+                            ) [NoDsgOpt]
+                          ) [Designator]
+                          DsgArrayAE(
+                            Assignop(
+                            ) [Assignop]
+                            Expr(
+                              SingleTerm(
+                                SingleFactor(
+                                  FactorNoMinus(
+                                    FactorNum(
+                                     0
+                                    ) [FactorNum]
+                                  ) [FactorNoMinus]
+                                ) [SingleFactor]
+                              ) [SingleTerm]
+                            ) [Expr]
+                          ) [DsgArrayAE]
+                        ) [DesignatorStatement]
+                      ) [SingleStmtElemDsgStmt]
+                    ) [SingleStatementnoLabel]
+                  ) [ListOfStatements]
+                  SingleStatementnoLabel(
+                    SingleStmtElemDsgStmt(
+                      DesignatorStatement(
+                        Designator(
+                         x
+                          NoDsgOpt(
+                          ) [NoDsgOpt]
+                        ) [Designator]
+                        DsgArrayAE(
+                          Assignop(
+                          ) [Assignop]
+                          Expr(
+                            SingleTerm(
+                              SingleFactor(
+                                FactorNoMinus(
+                                  FactorNum(
+                                   5
+                                  ) [FactorNum]
+                                ) [FactorNoMinus]
+                              ) [SingleFactor]
+                            ) [SingleTerm]
+                          ) [Expr]
+                        ) [DsgArrayAE]
+                      ) [DesignatorStatement]
+                    ) [SingleStmtElemDsgStmt]
+                  ) [SingleStatementnoLabel]
+                ) [ListOfStatements]
+                SingleStatementnoLabel(
+                  SingleStmtElemDsgStmt(
+                    DesignatorStatement(
+                      Designator(
+                       b
+                        NoDsgOpt(
+                        ) [NoDsgOpt]
+                      ) [Designator]
+                      DsgArrayAE(
+                        Assignop(
+                        ) [Assignop]
+                        Expr(
+                          SingleTerm(
+                            SingleFactor(
+                              FactorNoMinus(
+                                FactorBool(
+                                 false
+                                ) [FactorBool]
+                              ) [FactorNoMinus]
+                            ) [SingleFactor]
+                          ) [SingleTerm]
+                        ) [Expr]
+                      ) [DsgArrayAE]
+                    ) [DesignatorStatement]
+                  ) [SingleStmtElemDsgStmt]
+                ) [SingleStatementnoLabel]
+              ) [ListOfStatements]
+              SingleStatementnoLabel(
+                SingleStmtElemIf(
+                  IfLparen(
+                  ) [IfLparen]
+                  SingleCondition(
+                    SingleCondTermFact(
+                      DoubleCondFact(
+                        Expr(
+                          SingleTerm(
+                            SingleFactor(
+                              FactorNoMinus(
+                                FactorDesg(
+                                  Designator(
+                                   x
+                                    NoDsgOpt(
+                                    ) [NoDsgOpt]
+                                  ) [Designator]
+                                  NoFactorOptActPars(
+                                  ) [NoFactorOptActPars]
+                                ) [FactorDesg]
+                              ) [FactorNoMinus]
+                            ) [SingleFactor]
+                          ) [SingleTerm]
+                        ) [Expr]
+                        ArrayRelop1(
+                          RelopDoubleEqual(
+                          ) [RelopDoubleEqual]
+                        ) [ArrayRelop1]
+                        Expr(
+                          SingleTerm(
+                            SingleFactor(
+                              FactorNoMinus(
+                                FactorNum(
+                                 5
+                                ) [FactorNum]
+                              ) [FactorNoMinus]
+                            ) [SingleFactor]
+                          ) [SingleTerm]
+                        ) [Expr]
+                      ) [DoubleCondFact]
+                    ) [SingleCondTermFact]
+                  ) [SingleCondition]
+                  IfRparen(
+                  ) [IfRparen]
+                  SingleStatementnoLabel(
+                    SingleStmtElemNewStmt(
+                      ListOfStatements(
+                        ListOfStatements(
+                          ListOfStatements(
+                            NoStatementList(
+                            ) [NoStatementList]
+                            SingleStatementnoLabel(
+                              SingleStmtElemDo(
+                                DoWhileBegin(
+                                ) [DoWhileBegin]
+                                SingleStatementnoLabel(
+                                  SingleStmtElemNewStmt(
+                                    ListOfStatements(
+                                      ListOfStatements(
+                                        NoStatementList(
+                                        ) [NoStatementList]
+                                        SingleStatementnoLabel(
+                                          SingleStmtElemIf(
+                                            IfLparen(
+                                            ) [IfLparen]
+                                            SingleCondition(
+                                              SingleCondTermFact(
+                                                DoubleCondFact(
+                                                  Expr(
+                                                    SingleTerm(
+                                                      SingleFactor(
+                                                        FactorNoMinus(
+                                                          FactorDesg(
+                                                            Designator(
+                                                             i
+                                                              NoDsgOpt(
+                                                              ) [NoDsgOpt]
+                                                            ) [Designator]
+                                                            NoFactorOptActPars(
+                                                            ) [NoFactorOptActPars]
+                                                          ) [FactorDesg]
+                                                        ) [FactorNoMinus]
+                                                      ) [SingleFactor]
+                                                    ) [SingleTerm]
+                                                  ) [Expr]
+                                                  ArrayRelop1(
+                                                    RelopDoubleEqual(
+                                                    ) [RelopDoubleEqual]
+                                                  ) [ArrayRelop1]
+                                                  Expr(
+                                                    SingleTerm(
+                                                      SingleFactor(
+                                                        FactorNoMinus(
+                                                          FactorNum(
+                                                           3
+                                                          ) [FactorNum]
+                                                        ) [FactorNoMinus]
+                                                      ) [SingleFactor]
+                                                    ) [SingleTerm]
+                                                  ) [Expr]
+                                                ) [DoubleCondFact]
+                                              ) [SingleCondTermFact]
+                                            ) [SingleCondition]
+                                            IfRparen(
+                                            ) [IfRparen]
+                                            SingleStatementnoLabel(
+                                              SingleStmtElemNewStmt(
+                                                ListOfStatements(
+                                                  ListOfStatements(
+                                                    NoStatementList(
+                                                    ) [NoStatementList]
+                                                    SingleStatementnoLabel(
+                                                      SingleStmtElemPrint(
+                                                        Expr(
+                                                          SingleTerm(
+                                                            SingleFactor(
+                                                              FactorNoMinus(
+                                                                FactorNum(
+                                                                 15
+                                                                ) [FactorNum]
+                                                              ) [FactorNoMinus]
+                                                            ) [SingleFactor]
+                                                          ) [SingleTerm]
+                                                        ) [Expr]
+                                                        NoOptConst(
+                                                        ) [NoOptConst]
+                                                      ) [SingleStmtElemPrint]
+                                                    ) [SingleStatementnoLabel]
+                                                  ) [ListOfStatements]
+                                                  SingleStatementnoLabel(
+                                                    SingleStmtElemDsgStmt(
+                                                      DesignatorStatement(
+                                                        Designator(
+                                                         b
+                                                          NoDsgOpt(
+                                                          ) [NoDsgOpt]
+                                                        ) [Designator]
+                                                        DsgArrayAE(
+                                                          Assignop(
+                                                          ) [Assignop]
+                                                          Expr(
+                                                            SingleTerm(
+                                                              SingleFactor(
+                                                                FactorNoMinus(
+                                                                  FactorBool(
+                                                                   true
+                                                                  ) [FactorBool]
+                                                                ) [FactorNoMinus]
+                                                              ) [SingleFactor]
+                                                            ) [SingleTerm]
+                                                          ) [Expr]
+                                                        ) [DsgArrayAE]
+                                                      ) [DesignatorStatement]
+                                                    ) [SingleStmtElemDsgStmt]
+                                                  ) [SingleStatementnoLabel]
+                                                ) [ListOfStatements]
+                                              ) [SingleStmtElemNewStmt]
+                                            ) [SingleStatementnoLabel]
+                                            Helper(
+                                            ) [Helper]
+                                          ) [SingleStmtElemIf]
+                                        ) [SingleStatementnoLabel]
+                                      ) [ListOfStatements]
+                                      SingleStatementnoLabel(
+                                        SingleStmtElemDsgStmt(
+                                          DesignatorStatement(
+                                            Designator(
+                                             i
+                                              NoDsgOpt(
+                                              ) [NoDsgOpt]
+                                            ) [Designator]
+                                            DsgArrayInc(
+                                            ) [DsgArrayInc]
+                                          ) [DesignatorStatement]
+                                        ) [SingleStmtElemDsgStmt]
+                                      ) [SingleStatementnoLabel]
+                                    ) [ListOfStatements]
+                                  ) [SingleStmtElemNewStmt]
+                                ) [SingleStatementnoLabel]
+                                DoWhileLparen(
+                                ) [DoWhileLparen]
+                                SingleCondition(
+                                  SingleCondTermFact(
+                                    DoubleCondFact(
+                                      Expr(
+                                        SingleTerm(
+                                          SingleFactor(
+                                            FactorNoMinus(
+                                              FactorDesg(
+                                                Designator(
+                                                 i
+                                                  NoDsgOpt(
+                                                  ) [NoDsgOpt]
+                                                ) [Designator]
+                                                NoFactorOptActPars(
+                                                ) [NoFactorOptActPars]
+                                              ) [FactorDesg]
+                                            ) [FactorNoMinus]
+                                          ) [SingleFactor]
+                                        ) [SingleTerm]
+                                      ) [Expr]
+                                      RelopSmaller(
+                                      ) [RelopSmaller]
+                                      Expr(
+                                        SingleTerm(
+                                          SingleFactor(
+                                            FactorNoMinus(
+                                              FactorDesg(
+                                                Designator(
+                                                 x
+                                                  NoDsgOpt(
+                                                  ) [NoDsgOpt]
+                                                ) [Designator]
+                                                NoFactorOptActPars(
+                                                ) [NoFactorOptActPars]
+                                              ) [FactorDesg]
+                                            ) [FactorNoMinus]
+                                          ) [SingleFactor]
+                                        ) [SingleTerm]
+                                      ) [Expr]
+                                    ) [DoubleCondFact]
+                                  ) [SingleCondTermFact]
+                                ) [SingleCondition]
+                                DoWhileRparen(
+                                ) [DoWhileRparen]
+                              ) [SingleStmtElemDo]
+                            ) [SingleStatementnoLabel]
+                          ) [ListOfStatements]
+                          SingleStatementnoLabel(
+                            SingleStmtElemIfElse(
+                              IfLparen(
+                              ) [IfLparen]
+                              SingleCondition(
+                                SingleCondTermFact(
+                                  DoubleCondFact(
+                                    Expr(
+                                      SingleTerm(
+                                        SingleFactor(
+                                          FactorNoMinus(
+                                            FactorDesg(
+                                              Designator(
+                                               b
+                                                NoDsgOpt(
+                                                ) [NoDsgOpt]
+                                              ) [Designator]
+                                              NoFactorOptActPars(
+                                              ) [NoFactorOptActPars]
+                                            ) [FactorDesg]
+                                          ) [FactorNoMinus]
+                                        ) [SingleFactor]
+                                      ) [SingleTerm]
+                                    ) [Expr]
+                                    ArrayRelop1(
+                                      RelopDoubleEqual(
+                                      ) [RelopDoubleEqual]
+                                    ) [ArrayRelop1]
+                                    Expr(
+                                      SingleTerm(
+                                        SingleFactor(
+                                          FactorNoMinus(
+                                            FactorBool(
+                                             true
+                                            ) [FactorBool]
+                                          ) [FactorNoMinus]
+                                        ) [SingleFactor]
+                                      ) [SingleTerm]
+                                    ) [Expr]
+                                  ) [DoubleCondFact]
+                                ) [SingleCondTermFact]
+                              ) [SingleCondition]
+                              IfRparen(
+                              ) [IfRparen]
+                              SingleStatementnoLabel(
+                                SingleStmtElemPrint(
+                                  Expr(
+                                    SingleTerm(
+                                      SingleFactor(
+                                        FactorNoMinus(
+                                          FactorNum(
+                                           1
+                                          ) [FactorNum]
+                                        ) [FactorNoMinus]
+                                      ) [SingleFactor]
+                                    ) [SingleTerm]
+                                  ) [Expr]
+                                  YesOptConst(
+                                   5
+                                  ) [YesOptConst]
+                                ) [SingleStmtElemPrint]
+                              ) [SingleStatementnoLabel]
+                              ElseHelp(
+                              ) [ElseHelp]
+                              SingleStatementnoLabel(
+                                SingleStmtElemPrint(
+                                  Expr(
+                                    SingleTerm(
+                                      SingleFactor(
+                                        FactorNoMinus(
+                                          FactorNum(
+                                           2
+                                          ) [FactorNum]
+                                        ) [FactorNoMinus]
+                                      ) [SingleFactor]
+                                    ) [SingleTerm]
+                                  ) [Expr]
+                                  NoOptConst(
+                                  ) [NoOptConst]
+                                ) [SingleStmtElemPrint]
+                              ) [SingleStatementnoLabel]
+                              Helper(
+                              ) [Helper]
+                            ) [SingleStmtElemIfElse]
+                          ) [SingleStatementnoLabel]
+                        ) [ListOfStatements]
+                        SingleStatementnoLabel(
+                          SingleStmtElemDsgStmt(
+                            DesignatorStatement(
+                              Designator(
+                               j
+                                NoDsgOpt(
+                                ) [NoDsgOpt]
+                              ) [Designator]
+                              DsgArrayAE(
+                                Assignop(
+                                ) [Assignop]
+                                Expr(
+                                  SingleTerm(
+                                    SingleFactor(
+                                      FactorNoMinus(
+                                        FactorNum(
+                                         1
+                                        ) [FactorNum]
+                                      ) [FactorNoMinus]
+                                    ) [SingleFactor]
+                                  ) [SingleTerm]
+                                ) [Expr]
+                              ) [DsgArrayAE]
+                            ) [DesignatorStatement]
+                          ) [SingleStmtElemDsgStmt]
+                        ) [SingleStatementnoLabel]
+                      ) [ListOfStatements]
+                    ) [SingleStmtElemNewStmt]
+                  ) [SingleStatementnoLabel]
+                  Helper(
+                  ) [Helper]
+                ) [SingleStmtElemIf]
+              ) [SingleStatementnoLabel]
+            ) [ListOfStatements]
+            SingleStatementnoLabel(
+              SingleStmtElemDsgStmt(
+                DesignatorStatement(
+                  Designator(
+                   b
+                    NoDsgOpt(
+                    ) [NoDsgOpt]
+                  ) [Designator]
+                  DsgArrayAE(
+                    Assignop(
+                    ) [Assignop]
+                    Expr(
+                      SingleTerm(
+                        SingleFactor(
+                          FactorNoMinus(
+                            FactorDesg(
+                              Designator(
+                               m2
+                                NoDsgOpt(
+                                ) [NoDsgOpt]
+                              ) [Designator]
+                              OptActParsFactor(
+                                NoActPars(
+                                ) [NoActPars]
+                              ) [OptActParsFactor]
+                            ) [FactorDesg]
+                          ) [FactorNoMinus]
+                        ) [SingleFactor]
+                      ) [SingleTerm]
+                    ) [Expr]
+                  ) [DsgArrayAE]
+                ) [DesignatorStatement]
+              ) [SingleStmtElemDsgStmt]
+            ) [SingleStatementnoLabel]
+          ) [ListOfStatements]
+          SingleStatementnoLabel(
+            SingleStmtElemDsgStmt(
+              DesignatorStatement(
+                Designator(
+                 j
+                  NoDsgOpt(
+                  ) [NoDsgOpt]
+                ) [Designator]
+                DsgArrayAE(
+                  Assignop(
+                  ) [Assignop]
+                  Expr(
+                    SingleTerm(
+                      SingleFactor(
+                        FactorNoMinus(
+                          FactorDesg(
+                            Designator(
+                             m3
+                              NoDsgOpt(
+                              ) [NoDsgOpt]
+                            ) [Designator]
+                            OptActParsFactor(
+                              ActParsArray(
+                                SingleActPars(
+                                  Expr(
+                                    SingleTerm(
+                                      SingleFactor(
+                                        FactorNoMinus(
+                                          FactorDesg(
+                                            Designator(
+                                             i
+                                              NoDsgOpt(
+                                              ) [NoDsgOpt]
+                                            ) [Designator]
+                                            NoFactorOptActPars(
+                                            ) [NoFactorOptActPars]
+                                          ) [FactorDesg]
+                                        ) [FactorNoMinus]
+                                      ) [SingleFactor]
+                                    ) [SingleTerm]
+                                  ) [Expr]
+                                ) [SingleActPars]
+                              ) [ActParsArray]
+                            ) [OptActParsFactor]
+                          ) [FactorDesg]
+                        ) [FactorNoMinus]
+                      ) [SingleFactor]
+                    ) [SingleTerm]
+                  ) [Expr]
+                ) [DsgArrayAE]
+              ) [DesignatorStatement]
+            ) [SingleStmtElemDsgStmt]
+          ) [SingleStatementnoLabel]
+        ) [ListOfStatements]
+        SingleStatementnoLabel(
+          SingleStmtElemIf(
+            IfLparen(
+            ) [IfLparen]
+            MultipleCondition(
+              SingleCondition(
+                SingleCondTermFact(
+                  DoubleCondFact(
+                    Expr(
+                      SingleTerm(
+                        SingleFactor(
+                          FactorNoMinus(
+                            FactorDesg(
+                              Designator(
+                               j
+                                NoDsgOpt(
+                                ) [NoDsgOpt]
+                              ) [Designator]
+                              NoFactorOptActPars(
+                              ) [NoFactorOptActPars]
+                            ) [FactorDesg]
+                          ) [FactorNoMinus]
+                        ) [SingleFactor]
+                      ) [SingleTerm]
+                    ) [Expr]
+                    ArrayRelop1(
+                      RelopDoubleEqual(
+                      ) [RelopDoubleEqual]
+                    ) [ArrayRelop1]
+                    Expr(
+                      SingleTerm(
+                        SingleFactor(
+                          FactorNoMinus(
+                            FactorNum(
+                             0
+                            ) [FactorNum]
+                          ) [FactorNoMinus]
+                        ) [SingleFactor]
+                      ) [SingleTerm]
+                    ) [Expr]
+                  ) [DoubleCondFact]
+                ) [SingleCondTermFact]
+              ) [SingleCondition]
+              OrHelp(
+              ) [OrHelp]
+              SingleCondTermFact(
+                DoubleCondFact(
+                  Expr(
+                    SingleTerm(
+                      SingleFactor(
+                        FactorNoMinus(
+                          FactorDesg(
+                            Designator(
+                             b
+                              NoDsgOpt(
+                              ) [NoDsgOpt]
+                            ) [Designator]
+                            NoFactorOptActPars(
+                            ) [NoFactorOptActPars]
+                          ) [FactorDesg]
+                        ) [FactorNoMinus]
+                      ) [SingleFactor]
+                    ) [SingleTerm]
+                  ) [Expr]
+                  ArrayRelop1(
+                    RelopDoubleEqual(
+                    ) [RelopDoubleEqual]
+                  ) [ArrayRelop1]
+                  Expr(
+                    SingleTerm(
+                      SingleFactor(
+                        FactorNoMinus(
+                          FactorBool(
+                           false
+                          ) [FactorBool]
+                        ) [FactorNoMinus]
+                      ) [SingleFactor]
+                    ) [SingleTerm]
+                  ) [Expr]
+                ) [DoubleCondFact]
+              ) [SingleCondTermFact]
+            ) [MultipleCondition]
+            IfRparen(
+            ) [IfRparen]
+            SingleStatementnoLabel(
+              SingleStmtElemPrint(
+                Expr(
+                  SingleTerm(
+                    SingleFactor(
+                      FactorNoMinus(
+                        FactorDesg(
+                          Designator(
+                           c
+                            NoDsgOpt(
+                            ) [NoDsgOpt]
+                          ) [Designator]
+                          NoFactorOptActPars(
+                          ) [NoFactorOptActPars]
+                        ) [FactorDesg]
+                      ) [FactorNoMinus]
+                    ) [SingleFactor]
+                  ) [SingleTerm]
+                ) [Expr]
+                NoOptConst(
+                ) [NoOptConst]
+              ) [SingleStmtElemPrint]
+            ) [SingleStatementnoLabel]
+            Helper(
+            ) [Helper]
+          ) [SingleStmtElemIf]
+        ) [SingleStatementnoLabel]
+      ) [ListOfStatements]
+    ) [MethodDecl]
+  ) [ListMethodDecl]
+) [Program]
+INFO  23:37:01,546 - ===================================
+ERROR 23:37:01,549 - Greska na liniji 3 : nekompatibilni tipovi u definiciji konstante.
+INFO  23:37:01,549 - Deklarisana promenljiva i na liniji 4
+INFO  23:37:01,549 - Deklarisana promenljiva j na liniji 4
+INFO  23:37:01,550 - Deklarisana promenljiva x na liniji 5
+INFO  23:37:01,550 - Deklarisana promenljiva b na liniji 6
+INFO  23:37:01,550 - Obradjuje se funkcija m2 na liniji 10
+INFO  23:37:01,550 - Deklarisana promenljiva c na liniji 10
+INFO  23:37:01,550 - Deklarisana promenljiva x na liniji 10
+INFO  23:37:01,550 - Pristup lokalnoj promenljivoj 'x' na liniji 11
+INFO  23:37:01,550 - Pristup lokalnoj promenljivoj 'ord' na liniji 11
+INFO  23:37:01,550 - Pristup formalnom argumentu 'c' funkcije 'm2' na liniji 11
+INFO  23:37:01,550 - Pristup formalnom argumentu 'c' funkcije 'm2' na liniji 12
+ERROR 23:37:01,551 - Greska u funkciji m2: povratni tip funkcije se ne poklapa sa navedenim povratnim tipom!
+INFO  23:37:01,551 - Obradjuje se funkcija m3 na liniji 15
+INFO  23:37:01,551 - Pristup globalnoj promenljivoj 'i' na liniji 16
+ERROR 23:37:01,551 - Greska na liiniji 16, tipovi nisu kompatibilni!
+ERROR 23:37:01,551 - Greska na liiniiji 16, uslov mora biti tipa bool!
+INFO  23:37:01,551 - Obradjuje se funkcija main na liniji 20
+INFO  23:37:01,551 - Deklarisana promenljiva x na liniji 20
+INFO  23:37:01,551 - Pristup globalnoj promenljivoj 'i' na liniji 22
+INFO  23:37:01,551 - Pristup globalnoj promenljivoj 'j' na liniji 23
+INFO  23:37:01,551 - Pristup lokalnoj promenljivoj 'x' na liniji 24
+INFO  23:37:01,551 - Pristup globalnoj promenljivoj 'b' na liniji 25
+INFO  23:37:01,551 - Pristup lokalnoj promenljivoj 'x' na liniji 27
+INFO  23:37:01,551 - Pristup globalnoj promenljivoj 'i' na liniji 29
+INFO  23:37:01,551 - Poziv funkcije 'print' na liniji 30
+INFO  23:37:01,551 - Pristup globalnoj promenljivoj 'b' na liniji 31
+INFO  23:37:01,551 - Pristup globalnoj promenljivoj 'i' na liniji 33
+INFO  23:37:01,551 - Pristup globalnoj promenljivoj 'i' na liniji 34
+INFO  23:37:01,551 - Pristup lokalnoj promenljivoj 'x' na liniji 34
+INFO  23:37:01,551 - Pristup globalnoj promenljivoj 'b' na liniji 35
+INFO  23:37:01,552 - Poziv funkcije 'print' na liniji 35
+INFO  23:37:01,552 - Poziv funkcije 'print' na liniji 36
+INFO  23:37:01,552 - Pristup globalnoj promenljivoj 'j' na liniji 37
+INFO  23:37:01,552 - Pristup globalnoj promenljivoj 'b' na liniji 40
+INFO  23:37:01,552 - Poziv metode 'm2' na liniji 40
+ERROR 23:37:01,552 - Greska na liniji 40 : nekompatibilni tipovi u izrazu za dodelu vrednosti.
+INFO  23:37:01,552 - Pristup globalnoj promenljivoj 'j' na liniji 41
+INFO  23:37:01,552 - Poziv metode 'm3' na liniji 41
+INFO  23:37:01,552 - Pristup globalnoj promenljivoj 'i' na liniji 41
+ERROR 23:37:01,552 - Greska tip 2 na liniji 41
+ERROR 23:37:01,552 - Greska na liniji 41 : nekompatibilni tipovi u izrazu za dodelu vrednosti.
+INFO  23:37:01,552 - Pristup globalnoj promenljivoj 'j' na liniji 43
+INFO  23:37:01,552 - Pristup globalnoj promenljivoj 'b' na liniji 43
+ERROR 23:37:01,552 - Greska na liniji 43: ime c nije deklarisano!
+INFO  23:37:01,552 - Pristup lokalnoj promenljivoj 'noObj' na liniji 43
+ERROR 23:37:01,552 - Greska, na liniji 43 se ne nalazi globalna funkcija!
+ERROR 23:37:01,552 - Greska, na liniji 43 argumenti funkcije print nisu valjani!
+INFO  23:37:01,552 - ===================================
+=====================SYMBOL TABLE DUMP=========================
+Type int: int, -1, -1 
+Type char: char, -1, -1 
+Con eol: char, 10, 0 
+Con null: Class [], 0, 0 
+Meth chr: char, 0, 1 
+   Var i: int, 0, 1 
+
+Meth ord: int, 0, 1 
+   Var ch: char, 0, 1 
+
+Meth len: int, 0, 1 
+   Var arr: Arr of notype, 0, 1 
+
+Type bool: , 0, 1 
+Prog Semantic_errors: notype, 0, 1 
+   Var i: int, 0, 0 
+   Var j: int, 1, 0 
+   Var x: Arr of int, 2, 0 
+   Var b: , 3, 0 
+   Meth m2: int, 0, 0 
+      Var c: char, 0, 1 
+      Var x: int, 1, 1 
+
+   Meth m3: , 0, 0 
+
+   Meth main: notype, 0, 0 
+      Var x: int, 0, 1 
+
+
+
+ERROR 23:37:01,553 - Parsiranje NIJE uspesno zavrseno!

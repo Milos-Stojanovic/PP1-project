@@ -60,18 +60,21 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 		public boolean hasPredefinedValue;
 		public int predefinedValue = Integer.MIN_VALUE;
 		public boolean wildcard;
+		public String name;
 		
-		public TypeHelper(Struct s, boolean b, boolean c) {
+		public TypeHelper(Struct s, boolean b, boolean c, String name) {
 			type = s;
 			hasPredefinedValue = b;
 			wildcard = c;
+			this.name = name;
 		}
 		
-		public TypeHelper(Struct s, boolean b, boolean c, int ss) {
+		public TypeHelper(Struct s, boolean b, boolean c, int ss, String name) {
 			type = s;
 			hasPredefinedValue = b;
 			wildcard = c;
 			predefinedValue = ss;
+			this.name = name;
 		}
 		
 		@Override
@@ -125,15 +128,15 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 		Tab.insert(Obj.Type, "bool", boolStruct);
 		
 		currentMethodHelper = new MethodHelper("len", 1, Tab.intType);
-		currentMethodHelper.types.add(new TypeHelper(new Struct(Struct.Array, Tab.intType), false, false));
+		currentMethodHelper.types.add(new TypeHelper(new Struct(Struct.Array, Tab.intType), false, false, "len"));
 		methods.add(currentMethodHelper);
 		
 		currentMethodHelper = new MethodHelper("chr", 1, Tab.charType);
-		currentMethodHelper.types.add(new TypeHelper(Tab.intType, false, false));
+		currentMethodHelper.types.add(new TypeHelper(Tab.intType, false, false, "chr"));
 		methods.add(currentMethodHelper);
 		
 		currentMethodHelper = new MethodHelper("ord", 1, Tab.intType);
-		currentMethodHelper.types.add(new TypeHelper(Tab.charType, false, false));
+		currentMethodHelper.types.add(new TypeHelper(Tab.charType, false, false, "ord"));
 		methods.add(currentMethodHelper);
 		
 		//System.out.println(methods);
@@ -313,6 +316,9 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 			}
 			else {
 				//currentStruct = obj.getType().getElemType();
+				// obavestenje da se koristi element niza na toj i toj liniji
+				if ((obj.getType().getElemType() != null && obj.getType().getElemType() == Tab.intType))
+					report_info("Pristup elementu niza '" + designator.obj.getName() + "' na liniji " + designator.getLine() + ": " + ((DesignatorOpt)designator.getDsgOpt()).getDsgElem(), null);
 			}
 		}
 		else {
@@ -320,6 +326,42 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 				arrayElem = true;
 				if(findArrayByName(designator.obj.getName())!= null && !findArrayByName(designator.obj.getName()).instantiated) {
 					report_error("Greska, na liniji " + designator.getLine() + " se nalazi neinicijalizovana promenljiva tipa niza!", null);
+				}
+				else {
+					// obavestenje da se koristi element niza na toj i toj liniji
+					//if ((obj.getType().getElemType() != null && obj.getType().getElemType() == Tab.intType))
+						report_info("Pristup elementu niza '" + designator.obj.getName() + "' na liniji " + designator.getLine() + ": " + ((DesignatorOpt)designator.getDsgOpt()).getDsgElem(), null);
+				}
+			}
+			else {
+				// koristi se ili lokalna ili globalna promenljiva
+				if (designator.obj.getLevel() == 0) {
+					// globalni
+					if (designator.obj.getKind() == Obj.Meth) {
+						report_info("Poziv metode '" + designator.obj.getName() + "' na liniji " + designator.getLine() , null);
+					}
+					else {
+						report_info("Pristup globalnoj promenljivoj '" + designator.obj.getName() + "' na liniji " + designator.getLine() , null);
+					}
+				}
+				else {
+					// lokalni
+					boolean flag = false;
+					
+					if (!currentMethod.getName().equals("main")) {
+						for (int i = 0; i < types.size(); i++) {
+							if (types.get(i).name.equals(designator.obj.getName())) {
+								flag = true;
+								break;
+							}
+						}
+					}
+					
+					if (!flag)
+						report_info("Pristup lokalnoj promenljivoj '" + designator.obj.getName() + "' na liniji " + designator.getLine() , null);
+					else {
+						report_info("Pristup formalnom argumentu '" + designator.obj.getName() + "' funkcije '"+ currentMethod.getName() +"' na liniji " + designator.getLine() , null);
+					}
 				}
 			}
 		}
@@ -367,10 +409,10 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 
 			if (isArray) {
 				Struct myStruct = new Struct(Struct.Array, currentStruct);
-				types.add(currMethodParNum-1, new TypeHelper(myStruct, false, false));
+				types.add(currMethodParNum-1, new TypeHelper(myStruct, false, false, argElem.getElem()));
 				Tab.insert(Obj.Var, argElem.getElem(), myStruct);
 			} else {
-				types.add(currMethodParNum-1, new TypeHelper(currentStruct, false, false));
+				types.add(currMethodParNum-1, new TypeHelper(currentStruct, false, false, argElem.getElem()));
 				Tab.insert(Obj.Var, argElem.getElem(), currentStruct);
 			}
 
@@ -396,11 +438,11 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 
 			Tab.insert(Obj.Var, optArg.getT(), currentStruct);
 			if(optArg.getConstType() instanceof NumConstType)
-				types.add(currMethodParNum-1, new TypeHelper(currentStruct, true, false, ((NumConstType)optArg.getConstType()).getN1()));
+				types.add(currMethodParNum-1, new TypeHelper(currentStruct, true, false, ((NumConstType)optArg.getConstType()).getN1(), optArg.getT()));
 			if(optArg.getConstType() instanceof CharConstType)
-				types.add(currMethodParNum-1, new TypeHelper(currentStruct, true, false, (int)((CharConstType)optArg.getConstType()).getC1().charAt(1)));
+				types.add(currMethodParNum-1, new TypeHelper(currentStruct, true, false, (int)((CharConstType)optArg.getConstType()).getC1().charAt(1), optArg.getT()));
 			if(optArg.getConstType() instanceof BoolConstType)
-				types.add(currMethodParNum-1, new TypeHelper(currentStruct, true, false, ((BoolConstType)optArg.getConstType()).getB1().equals("true")?1:0));
+				types.add(currMethodParNum-1, new TypeHelper(currentStruct, true, false, ((BoolConstType)optArg.getConstType()).getB1().equals("true")?1:0, optArg.getT()));
 			
 			report_info("Deklarisana promenljiva " + optArg.getT(), optArg);
 		}
@@ -746,11 +788,16 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 			if (stmt.getDesignator().obj.getType().getElemType() == null || stmt.getDesignator().obj.getType().getElemType() == Tab.noType) {
 				report_error("Greska, na liniji " + stmt.getDesignator().getLine() + " argumenti funkcije read nisu valjani!", null);
 			}
+			else {
+				report_info("Poziv funkcije 'read' na liniji " + stmt.getDesignator().getLine(), null);
+			}
 		}
 		else {
 			if(!(obj.getType() == Tab.intType || obj.getType() == Tab.charType
 					|| obj.getType() == boolStruct)) {
 				report_error("Greska, na liniji " + stmt.getDesignator().getLine() + " argumenti funkcije read nisu valjani!", null);
+			}else {
+				report_info("Poziv funkcije 'read' na liniji " + stmt.getDesignator().getLine(), null);
 			}
 		}
 	}
@@ -761,6 +808,9 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 		//System.out.println(s.getKind());
 		if(!(s == Tab.intType || s == Tab.charType || s == boolStruct)) {
 			report_error("Greska, na liniji " + stmt.getExpr().getLine() + " argumenti funkcije print nisu valjani!", null);
+		}
+		else {
+			report_info("Poziv funkcije 'print' na liniji " + stmt.getExpr().getLine(), null);
 		}
 	}
 	

@@ -1,0 +1,362 @@
+INFO  16:04:26,466 - Compiling source file: C:\Users\stoja\git\repository\MJCompilerMain\MJCompiler\test\testOporavakOdGresaka.mj
+INFO  16:04:26,503 - #2 program
+INFO  16:04:26,528 - #14 p
+INFO  16:04:26,528 - #19 const
+INFO  16:04:26,529 - #14 int
+INFO  16:04:26,529 - #14 p
+INFO  16:04:26,530 - #8 =
+INFO  16:04:26,530 - #13 3
+INFO  16:04:26,530 - #11 ,
+INFO  16:04:26,531 - #14 m
+INFO  16:04:26,531 - #8 =
+INFO  16:04:26,531 - #11 ,
+ERROR 16:04:26,531 - 
+Sintaksna greska na liniji 3
+INFO  16:04:26,531 - #14 g
+INFO  16:04:26,532 - #8 =
+INFO  16:04:26,532 - #13 11
+INFO  16:04:26,532 - #5 ;
+INFO  16:04:26,532 - #14 int
+INFO  16:04:26,532 - #14 n
+INFO  16:04:26,532 - #5 ;
+INFO  16:04:26,533 - #3 {
+ERROR 16:04:26,533 - Recovered VarDeclaration from error to , ; or { at line 8
+INFO  16:04:26,536 - #14 int
+INFO  16:04:26,537 - #14 m1
+INFO  16:04:26,537 - #6 (
+INFO  16:04:26,538 - #14 int
+INFO  16:04:26,538 - #14 a
+INFO  16:04:26,538 - #11 ,
+INFO  16:04:26,539 - #14 b
+INFO  16:04:26,539 - #7 )
+ERROR 16:04:26,539 - 
+Sintaksna greska na liniji 6
+INFO  16:04:26,539 - #3 {
+INFO  16:04:26,539 - #9 return
+INFO  16:04:26,539 - #13 1
+ERROR 16:04:26,539 - Recovered formPars from error to , or ) at line 6
+INFO  16:04:26,540 - #5 ;
+INFO  16:04:26,541 - #4 }
+INFO  16:04:26,542 - #25 void
+INFO  16:04:26,542 - #14 main
+INFO  16:04:26,543 - #6 (
+INFO  16:04:26,543 - #7 )
+INFO  16:04:26,544 - #14 int
+INFO  16:04:26,544 - #14 a
+INFO  16:04:26,544 - #11 ,
+INFO  16:04:26,544 - #14 b
+INFO  16:04:26,544 - #49 [
+INFO  16:04:26,544 - #50 ]
+INFO  16:04:26,544 - #5 ;
+INFO  16:04:26,545 - #14 char
+INFO  16:04:26,545 - #14 eol
+INFO  16:04:26,545 - #5 ;
+INFO  16:04:26,545 - #14 r1
+INFO  16:04:26,545 - #14 rr
+INFO  16:04:26,546 - #5 ;
+INFO  16:04:26,546 - #3 {
+INFO  16:04:26,546 - #14 n
+INFO  16:04:26,546 - #8 =
+INFO  16:04:26,547 - #13 2
+INFO  16:04:26,548 - #13 2
+ERROR 16:04:26,548 - 
+Sintaksna greska na liniji 12
+INFO  16:04:26,548 - #5 ;
+INFO  16:04:26,548 - #14 n
+INFO  16:04:26,548 - #8 =
+INFO  16:04:26,548 - #13 2
+ERROR 16:04:26,548 - Recovered DesignatorError from error to ; at line 12
+INFO  16:04:26,550 - #45 ++
+ERROR 16:04:26,550 - 
+Sintaksna greska na liniji 13
+INFO  16:04:26,550 - #13 2
+INFO  16:04:26,550 - #5 ;
+INFO  16:04:26,551 - #14 n
+INFO  16:04:26,551 - #8 =
+INFO  16:04:26,551 - #13 2
+ERROR 16:04:26,551 - Recovered DesignatorError from error to ; at line 13
+INFO  16:04:26,551 - #10 +
+INFO  16:04:26,551 - #5 ;
+ERROR 16:04:26,551 - 
+Sintaksna greska na liniji 14
+INFO  16:04:26,551 - #20 if
+INFO  16:04:26,551 - #6 (
+INFO  16:04:26,551 - #32 true
+ERROR 16:04:26,551 - Recovered DesignatorError from error to ; at line 14
+INFO  16:04:26,552 - #43 &&
+INFO  16:04:26,552 - #7 )
+ERROR 16:04:26,552 - 
+Sintaksna greska na liniji 16
+INFO  16:04:26,552 - #3 {
+INFO  16:04:26,553 - #14 n
+INFO  16:04:26,553 - #8 =
+ERROR 16:04:26,553 - Recovered ConditionError ) at line 16
+INFO  16:04:26,554 - #13 2
+INFO  16:04:26,554 - #5 ;
+INFO  16:04:26,554 - #4 }
+INFO  16:04:26,554 - #4 }
+INFO  16:04:26,555 - #4 }
+INFO  16:04:26,562 - Program(
+  ProgName(
+   p
+  ) [ProgName]
+  DeclListRec(
+    DeclListRec(
+      NoDeclList(
+      ) [NoDeclList]
+      VarDeclarationError(
+      ) [VarDeclarationError]
+    ) [DeclListRec]
+    SingleVar(
+      VarDecl(
+        Type(
+         int
+        ) [Type]
+        VarElem(
+         n
+          NoArray(
+          ) [NoArray]
+        ) [VarElem]
+        NoVarArray(
+        ) [NoVarArray]
+      ) [VarDecl]
+    ) [SingleVar]
+  ) [DeclListRec]
+  ListMethodDecl(
+    ListMethodDecl(
+      NoMethodDeclList(
+      ) [NoMethodDeclList]
+      MethodDecl(
+        MethodTypeName(
+          NonVoidTypeMethod(
+            Type(
+             int
+            ) [Type]
+          ) [NonVoidTypeMethod]
+         m1
+        ) [MethodTypeName]
+        Wrapper1(
+          FormParsError(
+          ) [FormParsError]
+        ) [Wrapper1]
+        NoVarDeclList(
+        ) [NoVarDeclList]
+        ListOfStatements(
+          NoStatementList(
+          ) [NoStatementList]
+          SingleStatementnoLabel(
+            SingleStmtElemReturn(
+              YesExprOpt(
+                Expr(
+                  SingleTerm(
+                    SingleFactor(
+                      FactorNoMinus(
+                        FactorNum(
+                         1
+                        ) [FactorNum]
+                      ) [FactorNoMinus]
+                    ) [SingleFactor]
+                  ) [SingleTerm]
+                ) [Expr]
+              ) [YesExprOpt]
+            ) [SingleStmtElemReturn]
+          ) [SingleStatementnoLabel]
+        ) [ListOfStatements]
+      ) [MethodDecl]
+    ) [ListMethodDecl]
+    MethodDecl(
+      MethodTypeName(
+        VoidTypeMethod(
+        ) [VoidTypeMethod]
+       main
+      ) [MethodTypeName]
+      Wrapper1(
+        NoFormPars(
+        ) [NoFormPars]
+      ) [Wrapper1]
+      ListVarDecl(
+        ListVarDecl(
+          ListVarDecl(
+            NoVarDeclList(
+            ) [NoVarDeclList]
+            VarDecl(
+              Type(
+               int
+              ) [Type]
+              VarElem(
+               a
+                NoArray(
+                ) [NoArray]
+              ) [VarElem]
+              VarArrayRec(
+                NoVarArray(
+                ) [NoVarArray]
+                VarElem(
+                 b
+                  Array(
+                  ) [Array]
+                ) [VarElem]
+              ) [VarArrayRec]
+            ) [VarDecl]
+          ) [ListVarDecl]
+          VarDecl(
+            Type(
+             char
+            ) [Type]
+            VarElem(
+             eol
+              NoArray(
+              ) [NoArray]
+            ) [VarElem]
+            NoVarArray(
+            ) [NoVarArray]
+          ) [VarDecl]
+        ) [ListVarDecl]
+        VarDecl(
+          Type(
+           r1
+          ) [Type]
+          VarElem(
+           rr
+            NoArray(
+            ) [NoArray]
+          ) [VarElem]
+          NoVarArray(
+          ) [NoVarArray]
+        ) [VarDecl]
+      ) [ListVarDecl]
+      ListOfStatements(
+        ListOfStatements(
+          ListOfStatements(
+            ListOfStatements(
+              NoStatementList(
+              ) [NoStatementList]
+              SingleStatementnoLabel(
+                SingleStmtElemDsgStmt(
+                  DesignatorStatement(
+                    Designator(
+                     n
+                      NoDsgOpt(
+                      ) [NoDsgOpt]
+                    ) [Designator]
+                    DesignatorError(
+                    ) [DesignatorError]
+                  ) [DesignatorStatement]
+                ) [SingleStmtElemDsgStmt]
+              ) [SingleStatementnoLabel]
+            ) [ListOfStatements]
+            SingleStatementnoLabel(
+              SingleStmtElemDsgStmt(
+                DesignatorStatement(
+                  Designator(
+                   n
+                    NoDsgOpt(
+                    ) [NoDsgOpt]
+                  ) [Designator]
+                  DesignatorError(
+                  ) [DesignatorError]
+                ) [DesignatorStatement]
+              ) [SingleStmtElemDsgStmt]
+            ) [SingleStatementnoLabel]
+          ) [ListOfStatements]
+          SingleStatementnoLabel(
+            SingleStmtElemDsgStmt(
+              DesignatorStatement(
+                Designator(
+                 n
+                  NoDsgOpt(
+                  ) [NoDsgOpt]
+                ) [Designator]
+                DesignatorError(
+                ) [DesignatorError]
+              ) [DesignatorStatement]
+            ) [SingleStmtElemDsgStmt]
+          ) [SingleStatementnoLabel]
+        ) [ListOfStatements]
+        SingleStatementnoLabel(
+          SingleStmtElemIf(
+            IfLparen(
+            ) [IfLparen]
+            ConditionError(
+            ) [ConditionError]
+            IfRparen(
+            ) [IfRparen]
+            SingleStatementnoLabel(
+              SingleStmtElemNewStmt(
+                ListOfStatements(
+                  NoStatementList(
+                  ) [NoStatementList]
+                  SingleStatementnoLabel(
+                    SingleStmtElemDsgStmt(
+                      DesignatorStatement(
+                        Designator(
+                         n
+                          NoDsgOpt(
+                          ) [NoDsgOpt]
+                        ) [Designator]
+                        DsgArrayAE(
+                          Assignop(
+                          ) [Assignop]
+                          Expr(
+                            SingleTerm(
+                              SingleFactor(
+                                FactorNoMinus(
+                                  FactorNum(
+                                   2
+                                  ) [FactorNum]
+                                ) [FactorNoMinus]
+                              ) [SingleFactor]
+                            ) [SingleTerm]
+                          ) [Expr]
+                        ) [DsgArrayAE]
+                      ) [DesignatorStatement]
+                    ) [SingleStmtElemDsgStmt]
+                  ) [SingleStatementnoLabel]
+                ) [ListOfStatements]
+              ) [SingleStmtElemNewStmt]
+            ) [SingleStatementnoLabel]
+            Helper(
+            ) [Helper]
+          ) [SingleStmtElemIf]
+        ) [SingleStatementnoLabel]
+      ) [ListOfStatements]
+    ) [MethodDecl]
+  ) [ListMethodDecl]
+) [Program]
+INFO  16:04:26,562 - ===================================
+INFO  16:04:26,566 - Deklarisana promenljiva n na liniji 4
+INFO  16:04:26,566 - Obradjuje se funkcija m1 na liniji 6
+INFO  16:04:26,567 - Obradjuje se funkcija main na liniji 11
+INFO  16:04:26,567 - Deklarisana promenljiva a na liniji 11
+INFO  16:04:26,567 - Deklarisana promenljiva b na liniji 11
+INFO  16:04:26,567 - Deklarisana promenljiva eol na liniji 11
+INFO  16:04:26,567 - Deklarisana promenljiva rr na liniji 11
+INFO  16:04:26,568 - ===================================
+=====================SYMBOL TABLE DUMP=========================
+Type int: int, -1, -1 
+Type char: char, -1, -1 
+Con eol: char, 10, 0 
+Con null: Class [], 0, 0 
+Meth chr: char, 0, 1 
+   Var i: int, 0, 1 
+
+Meth ord: int, 0, 1 
+   Var ch: char, 0, 1 
+
+Meth len: int, 0, 1 
+   Var arr: Arr of notype, 0, 1 
+
+Type bool: , 0, 1 
+Prog p: notype, 0, 1 
+   Var n: int, 0, 0 
+   Meth m1: int, 0, 0 
+
+   Meth main: notype, 0, 0 
+      Var a: int, 0, 1 
+      Var b: Arr of int, 1, 1 
+      Var eol: char, 2, 1 
+      Var rr: notype, 3, 1 
+
+
+
+INFO  16:04:26,575 - Parsiranje uspesno zavrseno!
