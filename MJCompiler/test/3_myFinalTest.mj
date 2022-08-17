@@ -1,0 +1,49 @@
+program FinalTest
+
+const int sedam = 7, cetiri = 4;
+const bool tacno = true, netacno = false;
+const char a = 'a', b = 'b', c = 'c';
+int niz[];
+
+{
+
+	int pomnoziSa8(int faktor){
+		return faktor * (sedam + 1);
+	}
+	
+	bool ispitajTacnost(bool upitnaTacnost = true){
+		if (upitnaTacnost) return true;
+		else return false;
+	}
+	
+	void ispisiKraj() {
+		print('C'); print('a'); print('o'); print('s'); print('!'); print(eol);
+	}
+	
+	void main() int x, y; bool b1, b2; int i, j;
+	{
+	
+		b1 = false;
+		b2 = true;
+		x = 1;
+		y = 3;
+		i = 0; j = 0;
+		niz = new int[sedam + cetiri];
+		
+		do {
+			read(niz[j]);
+			j++;
+		} while (j < (2 * cetiri + 2));
+		
+		do {
+			if (i == 6) break;
+			if (i == 5) b2 = false;
+			print(pomnoziSa8(niz[i]));	print(eol);
+			i++;
+		} while(ispitajTacnost(b2));
+		
+		ispisiKraj();
+	
+	}
+
+}
