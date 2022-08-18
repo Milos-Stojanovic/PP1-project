@@ -566,18 +566,18 @@ public class CodeGenerator extends VisitorAdaptor {
 	// do-while handling
 	
 	public void visit(DoWhileBegin dwb) {
-		Code.put(Code.jmp);
-		Code.put2(0);
+		//Code.put(Code.jmp);
+		//Code.put2(0);
 		doWhileAdrHelper.add(new DoWhileAdrHelper());
 		doWhileIndex++;
 		doWhileAdrHelper.get(doWhileIndex).beginningAdr = Code.pc;
-		doWhileAdrHelper.get(doWhileIndex).patchJmpToCondition = Code.pc-2;
+		//doWhileAdrHelper.get(doWhileIndex).patchJmpToCondition = Code.pc-2;
 		IfElse_or_DoWhile.add("DoWhile");
 		condIndex++;
 	}
 	
 	public void visit(DoWhileLparen dwl) {
-		doWhileAdrHelper.get(doWhileIndex).conditionAdr = Code.pc;
+//		doWhileAdrHelper.get(doWhileIndex).conditionAdr = Code.pc;
 	}
 	
 	public void visit(DoWhileRparen dwr) {
@@ -622,8 +622,7 @@ public class CodeGenerator extends VisitorAdaptor {
 	// do-while handling
 	
 	public void visit(FactorMinus fm) {
-		Code.loadConst(-1);
-		Code.put(Code.mul);
+		Code.put(Code.neg);
 	}
 	
 	
