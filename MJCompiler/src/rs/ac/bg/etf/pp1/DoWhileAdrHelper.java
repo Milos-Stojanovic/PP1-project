@@ -8,11 +8,9 @@ public class DoWhileAdrHelper {
 
 	public int beginningAdr;
 	public int afterWhileAdr;
-	public int conditionAdr;
 	
 	ArrayList<Integer> adressesToPatchBeginning = new ArrayList<>();
 	ArrayList<Integer> adressesToPatchAfterWhile = new ArrayList<>();
-	int patchJmpToCondition;
 	
 	public void patchAdresses() {
 		for (int adr: adressesToPatchBeginning) {
@@ -28,11 +26,6 @@ public class DoWhileAdrHelper {
 			Code.fixup(adr);
 			Code.pc = temp;
 		}
-		
-		int temp = Code.pc;
-		Code.pc = conditionAdr;
-		Code.fixup(patchJmpToCondition);
-		Code.pc = temp;
 		
 	}
 	
