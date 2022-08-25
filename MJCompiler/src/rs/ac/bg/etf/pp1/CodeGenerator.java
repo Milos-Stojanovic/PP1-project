@@ -16,6 +16,7 @@ import rs.etf.pp1.symboltable.concepts.Struct;
 public class CodeGenerator extends VisitorAdaptor {
 
 	private int mainPc;
+	private boolean returnDetected = false;
 	
 	private ArrayList<MyLabel> localLabelsGoto = null;
 	private ArrayList<MyLabel> localLabelsDest = null;
@@ -129,6 +130,10 @@ public class CodeGenerator extends VisitorAdaptor {
 		
 	}
 	
+	public void visit(SingleStmtElemReturn retStmt) {
+		returnDetected = true;
+	}
+	
 	
 	public void visit(FactorNum factorNum) { // const deo od Expr
 		Obj con = Tab.insert(Obj.Con, "$", factorNum.struct);
@@ -186,6 +191,13 @@ public class CodeGenerator extends VisitorAdaptor {
 		
 		//System.out.println(localLabelsGoto);
 		//System.out.println(localLabelsDest);
+		
+		if(SemanticAnalyzer.findByName(methodDecl.getMethodTypeName().getMethName()).retType != Tab.noType) {
+			if (!returnDetected)
+				Code.put(Code.trap);
+		}
+		
+		returnDetected = false;
 		
 		// patching goto & destination label adresses
 		for(MyLabel gotoLabel: localLabelsGoto) {

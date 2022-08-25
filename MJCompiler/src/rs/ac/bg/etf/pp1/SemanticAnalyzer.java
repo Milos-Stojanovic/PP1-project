@@ -237,10 +237,10 @@ public class SemanticAnalyzer extends VisitorAdaptor {
 
 	public void visit(MethodDecl methodDecl) {
 
-		if (!returnDetected && currentMethodRetType != Tab.noType) {
+		/*if (!returnDetected && currentMethodRetType != Tab.noType) {
 			report_error("Greska na liniji " + methodDecl.getLine() + ", " + " metoda "
 					+ methodDecl.getMethodTypeName().getMethName() + " nema return!", null);
-		}
+		}*/
 
 		if (currentMethodRetType == Tab.noType && methodDecl.getMethodTypeName().getMethName().equals("main")
 				&& currMethodParNum == 0) {
